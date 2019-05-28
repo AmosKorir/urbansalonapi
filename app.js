@@ -28,7 +28,9 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 // require('./controllers/customerController')();
 const Customer = require('./controllers/customerController');
+const Order=require('./controllers/OrderController');
 app.use('/customer', Customer);
+app.use('/order',Order);
 
 // app.get('*', (req, res) => res.status(200).send({
 
