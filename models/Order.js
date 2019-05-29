@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
+const Customer = require('./Customer');
 
-module.exports = sequelize.define('order', {
+const Order = sequelize.define('order', {
 	orderid: {
 		type: Sequelize.INTEGER,
 		allowNull: false,
@@ -19,6 +20,7 @@ module.exports = sequelize.define('order', {
 		type: Sequelize.STRING(300),
 		allowNull: false,
 	},
-
-	
 });
+
+
+module.exports = Order;

@@ -1,22 +1,25 @@
-const Sequelize=require('sequelize');
- 
+const Sequelize = require('sequelize');
+const Order = require('./Order');
 
-module.exports=sequelize.define("customer",{
-       id:{
-        type:Sequelize.INTEGER,
-        allowNull:false,
-        autoIncrement:true,
-        primaryKey:true,
-    },
+const Customer = sequelize.define('customer', {
+	customerid: {
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		autoIncrement: true,
+		primaryKey: true,
+	},
 
-    name:Sequelize.STRING(300),
+	name: Sequelize.STRING(300),
 
-    phone: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-        primaryKey: true,
-    },
-   
+	phone: {
+		type: Sequelize.STRING(20),
+		allowNull: false,
+		primaryKey: true,
+	},
 
-    password:Sequelize.STRING(255)
-}); 
+	password: Sequelize.STRING(255),
+});
+Order.belongsTo(Customer, { foreignKey: 'customerid' }); 
+Customer.hasMany(Order, { as: 'orders', foreignKey: 'customerid' });
+
+module.exports = Customer;

@@ -1,5 +1,6 @@
 const express = require('express');
 const Customer = require('./../models/Customer');
+const Order=require('./../models/Order');
 const router = express.Router();
 
 const errorHander = err => {
@@ -36,6 +37,23 @@ router.get('/get_user', (req, res) => {
 		where: {
 			id: req.query.userId,
 		},
+	})
+		.then(user => res.json(user))
+		.catch(errorHander);
+});
+
+router.get('/orders', (req, res) => {
+	Customer.findAll({
+		where: {
+			customerid: req.query.userId,
+		},
+
+		include:[
+			{
+				model:Order,
+				as:"orders"
+			}
+		]
 	})
 		.then(user => res.json(user))
 		.catch(errorHander);

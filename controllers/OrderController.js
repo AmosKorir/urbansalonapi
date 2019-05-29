@@ -1,7 +1,8 @@
 const express = require('express');
 const Order = require('../models/Order');
+const Customer = require('./../models/Customer');
 const router = express.Router();
-
+Order.belongsTo(Customer, { foreignKey: 'customerid' });
 //create order
 
 router.post('/', (req, res) => {
@@ -46,8 +47,15 @@ router.get('/all', (req, res) => {
 router.get('/customer', (req, res) => {
 	Order.findAll({
 		where: {
-			customerid: req.query.customerid,
+			customerid: req.query.userId,
 		},
+
+		include: [
+			{
+				model: Customer,
+				as: 'customer',
+			},
+		],
 	})
 		.then(response => res.json(response))
 		.catch(error => {
