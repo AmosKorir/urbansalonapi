@@ -1,6 +1,4 @@
 const Sequelize = require('sequelize');
-const Order = require('./Order');
-
 const Customer = sequelize.define('customer', {
 	customerid: {
 		type: Sequelize.INTEGER,
@@ -18,8 +16,8 @@ const Customer = sequelize.define('customer', {
 	},
 
 	password: Sequelize.STRING(255),
+
+	avatar: Sequelize.STRING(300),
 });
-Order.belongsTo(Customer, { foreignKey: 'customerid' }); 
-Customer.hasMany(Order, { as: 'orders', foreignKey: 'customerid' });
 
 module.exports = Customer;

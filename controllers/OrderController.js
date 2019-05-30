@@ -1,15 +1,21 @@
 const express = require('express');
 const Order = require('../models/Order');
 const Customer = require('./../models/Customer');
+const Service = require('./../models/Service');
+const Salon = require('./../models/Salon');
 const router = express.Router();
-Order.belongsTo(Customer, { foreignKey: 'customerid' });
+require('./../models/Relationship')
+
+
 //create order
 
 router.post('/', (req, res) => {
 	Order.create({
 		orderno: Math.floor(1000 + Math.random() * 9000),
-		salonid: req.body.salon_id,
-		customerid: req.body.customer_id,
+		serviceid: req.body.serviceid,
+		customerid: req.body.customerid,
+		timebooked: req.body.timebooked,
+		datebooked: req.body.datebooked,
 	})
 		.then(success =>
 			res.json({
@@ -52,8 +58,20 @@ router.get('/customer', (req, res) => {
 
 		include: [
 			{
+				model: Service,
+				as: 'service',
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
 				model: Customer,
 				as: 'customer',
+				attributes: { exclude: ['password'] },
 			},
 		],
 	})

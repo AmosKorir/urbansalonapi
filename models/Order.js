@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const Customer = require('./Customer');
 
 const Order = sequelize.define('order', {
 	orderid: {
@@ -8,7 +7,11 @@ const Order = sequelize.define('order', {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	salonid: {
+	customerid: {
+		type: Sequelize.STRING(300),
+		allowNull: false,
+	},
+	serviceid: {
 		type: Sequelize.STRING(300),
 		allowNull: false,
 	},
@@ -16,11 +19,12 @@ const Order = sequelize.define('order', {
 		type: Sequelize.STRING(20),
 		allowNull: false,
 	},
-	customerid: {
-		type: Sequelize.STRING(300),
-		allowNull: false,
-	},
-});
 
+	status: Sequelize.INTEGER,
+
+	timebooked: Sequelize.TIME,
+
+	datebooked: Sequelize.DATE,
+});
 
 module.exports = Order;

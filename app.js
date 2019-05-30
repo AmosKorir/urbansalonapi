@@ -20,7 +20,7 @@ app.use(logger('dev'));
 
 app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 
@@ -28,9 +28,14 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 // require('./controllers/customerController')();
 const Customer = require('./controllers/customerController');
-const Order=require('./controllers/OrderController');
+const Order = require('./controllers/OrderController');
+const Salon = require('./controllers/SalonController');
+const Service = require('./controllers/ServiceController');
+require('./models/Relationship');
 app.use('/customer', Customer);
-app.use('/order',Order);
+app.use('/order', Order);
+app.use('/salon', Salon);
+app.use('/service', Service);
 
 // app.get('*', (req, res) => res.status(200).send({
 
