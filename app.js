@@ -51,6 +51,8 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-server.listen(port);
+server.listen(process.env.PORT || port, function () {
+    console.log('Your node js server is running');
+});
 
 module.exports = app;
