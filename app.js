@@ -39,11 +39,11 @@ app.use('/order', Order);
 app.use('/salon', Salon);
 app.use('/service', Service);
 
-// app.get('*', (req, res) => res.status(200).send({
+app.get('/', (req, res) => res.status(200).send({
 
-// message: 'Welcome to the beginning of nothingness.',
+message: 'Welcome to the beginning of nothingness.',
 
-// }));
+}));
 
 const port = parseInt(process.env.PORT, 10) || 8200;
 
