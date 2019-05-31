@@ -31,6 +31,8 @@ const Customer = require('./controllers/customerController');
 const Order = require('./controllers/OrderController');
 const Salon = require('./controllers/SalonController');
 const Service = require('./controllers/ServiceController');
+const expressValidator = require('express-validator');
+app.use(expressValidator());
 require('./models/Relationship');
 app.use('/customer', Customer);
 app.use('/order', Order);

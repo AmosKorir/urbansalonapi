@@ -29,7 +29,8 @@ const Salon = sequelize.define('salon', {
 	openingtime: Sequelize.TIME,
 
 	closingtime: Sequelize.TIME,
-});
 
+	accesstoken: Sequelize.STRING(2664),
+});
 
 module.exports = Salon;

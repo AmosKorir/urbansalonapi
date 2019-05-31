@@ -18,6 +18,8 @@ const Customer = sequelize.define('customer', {
 	password: Sequelize.STRING(255),
 
 	avatar: Sequelize.STRING(300),
+
+	accesstoken: Sequelize.STRING(2664)   
 });
 
 module.exports = Customer;

@@ -4,9 +4,8 @@ module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('customers', {
 			customerid: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(767),
 				allowNull: false,
-				autoIncrement: true,
 				primaryKey: true,
 			},
 
@@ -21,6 +20,8 @@ module.exports = {
 			password: Sequelize.STRING(255),
 
 			avatar: Sequelize.STRING(300),
+
+			accesstoken: Sequelize.STRING(2664),
 
 			createdAT: Sequelize.DATE,
 

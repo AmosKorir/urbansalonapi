@@ -1,33 +1,47 @@
 const express = require('express');
 const router = express.Router();
+const handler = require('../utils/Errorhandler');
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
+const { check, validationResult } = require('express-validator/check');
 
 //creates a service
-router.post('/create', (req, res) => {
-	Service.create({
-		salonid: req.body.salonid,
-		name: req.body.name,
-		price: req.body.price,
-		status: '0',
-	})
-		.then(response => res.json(response))
-		.catch(error => {
-			res.status(error.status || 402);
-			res.json({
-				error: {
-					message: error.message,
-				},
-			});
-		});
-});
+router.post(
+	'/create',
+	[
+		check('name')
+			.not()
+			.isEmpty(),
+		check('price')
+			.not()
+			.isEmpty()
+			.isInt(),
+	],
+	(req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(422).json({ errors: errors.array() });
+		}
+		var userId = handler.validateAccessToken(req, res);
+
+		Service.create({
+			salonid: userId,
+			name: req.body.name,
+			price: req.body.price,
+			status: '0',
+		})
+			.then(response => res.json(response))
+			.catch(error => handler.handleError(res, 500, error.message));
+	}
+);
 
 //get all the service by salon
 
-router.get('/all', (req, res) => {
+router.get('/salon_self', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
 	Service.findAll({
 		where: {
-			salonid: req.query.salonid,
+			salonid: userId,
 		},
 		include: [
 			{
@@ -38,13 +52,13 @@ router.get('/all', (req, res) => {
 		],
 	})
 		.then(response => res.json(response))
-		.catch(error => {
-			res.status(error.status || 402);
-			res.json({
-				error: {
-					message: error.message,
-				},
-			});
-		});
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+// function to get all the services
+router.get('/all', (req, res) => {
+	Service.findAll()
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
 });
 module.exports = router;

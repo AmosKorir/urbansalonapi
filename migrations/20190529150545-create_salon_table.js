@@ -4,9 +4,8 @@ module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('salons', {
 			salonid: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(767),
 				allowNull: false,
-				autoIncrement: true,
 				primaryKey: true,
 			},
 			name: Sequelize.STRING(300),
@@ -32,6 +31,7 @@ module.exports = {
 			openingtime: Sequelize.TIME,
 
 			closingtime: Sequelize.TIME,
+			accesstoken: Sequelize.STRING(2664),
 
 			createdAT: Sequelize.DATE,
 
