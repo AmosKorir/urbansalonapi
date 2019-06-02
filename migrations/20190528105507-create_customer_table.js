@@ -23,7 +23,7 @@ module.exports = {
 
 			accesstoken: Sequelize.STRING(2664),
 
-			createdAT: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
 
 			updatedAt: Sequelize.DATE,
 		});
