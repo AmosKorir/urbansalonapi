@@ -10,7 +10,7 @@ module.exports = {
 				primaryKey: true,
 			},
 			salonid: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING,
 				allowNull: false,
 			},
 
