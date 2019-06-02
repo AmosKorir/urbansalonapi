@@ -28,7 +28,7 @@ module.exports = {
 
 			datebooked: Sequelize.DATE,
 
-			createdAT: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
 
 			updatedAt: Sequelize.DATE,
 		});

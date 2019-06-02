@@ -22,7 +22,7 @@ module.exports = {
 
 			avatar: Sequelize.STRING,
 
-			createdAT: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
 
 			updatedAt: Sequelize.DATE,
 		});
