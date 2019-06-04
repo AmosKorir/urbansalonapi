@@ -31,6 +31,7 @@ const Customer = require('./controllers/customerController');
 const Order = require('./controllers/OrderController');
 const Salon = require('./controllers/SalonController');
 const Service = require('./controllers/ServiceController');
+const Image = require('./controllers/ImagUploadController');
 const expressValidator = require('express-validator');
 app.use(expressValidator());
 require('./models/Relationship');
@@ -39,11 +40,12 @@ app.use('/order', Order);
 app.use('/salon', Salon);
 app.use('/service', Service);
 
-app.get('/', (req, res) => res.status(200).send({
-
-message: 'Welcome to the beginning of nothingness.',
-
-}));
+app.get('/', (req, res) =>
+	res.status(200).send({
+		message: 'Welcome to the beginning of nothingness.',
+	})
+);
+app.get('/', Image);
 
 const port = parseInt(process.env.PORT, 10) || 8200;
 
@@ -51,8 +53,8 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || port, function () {
-    console.log('Your node js server is running');
+server.listen(process.env.PORT || port, function() {
+	console.log('Your node js server is running');
 });
 
 module.exports = app;
