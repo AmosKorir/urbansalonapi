@@ -90,6 +90,10 @@ router.get('/get_salon', (req, res) => {
 		.then(user => res.json(user))
 		.catch(error => handler.handleError(res, 500, error.message));
 });
-
+router.get('/all',(req,res)=>{
+	Salon.findAll()
+		.then(user => res.json(user))
+		.catch(error => handler.handleError(res, 500, error.message));
+})
 
 module.exports = router;
