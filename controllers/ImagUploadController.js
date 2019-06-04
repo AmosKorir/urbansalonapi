@@ -35,7 +35,7 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 	Salon.update({
 		avatar: req.file.filename,
 		where: {
-			salon: userId,
+			salonid: userId,
 		},
 	})
 		.then(salon => res.json(salon))
