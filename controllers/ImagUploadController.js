@@ -3,6 +3,7 @@ const router = express.Router();
 const handler = require('../utils/Errorhandler');
 const Salon = require('./../models/Salon');
 var multer = require('multer');
+const { check, validationResult } = require('express-validator/check');
 var storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, './public/images');
@@ -25,6 +26,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post('/upload/salon', upload.single('file'), function(req, res, next) {
+    var userId = handler.validateAccessToken(req, res);
 	console.log(req.file);
 	if (!req.file) {
 		res.status(500);
@@ -33,7 +35,7 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 	Salon.update({
 		avatar: req.file.filename,
 		where: {
-			salon: req.body.salonid,
+			salon: userId,
 		},
 	})
 		.then(salon => res.json(salon))
