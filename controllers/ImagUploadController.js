@@ -26,14 +26,20 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post('/upload/salon', upload.single('file'), function(req, res, next) {
-    var userId = handler.validateAccessToken(req, res);
+	var userId = handler.validateAccessToken(req, res);
 	console.log(req.file);
 	if (!req.file) {
 		res.status(500);
 		return next(err);
 	}
-	Salon.update({ avatar: req.file.filename}, { where: { salonid: userId} })
-		.then(salon => res.json(salon))
+	Salon.update({ avatar: req.file.filename }, { where: { salonid: userId } })
+		.then(success =>
+			res.json({
+				success: {
+					status: true,
+				},
+			})
+		)
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
