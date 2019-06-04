@@ -32,12 +32,7 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 		res.status(500);
 		return next(err);
 	}
-	Salon.update({
-        avatar:"vfbcxvkb",
-        where:{
-            salonid:"0707389304"
-        }
-    })
+	Salon.update({ avatar: req.file.filename}, { where: { salonid: userId} })
 		.then(salon => res.json(salon))
 		.catch(error => handler.handleError(res, 500, error.message));
 });
