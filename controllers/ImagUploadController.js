@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const handler = require('../utils/Errorhandler');
+const Salon = require('./../models/Salon');
 var multer = require('multer');
 var storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -23,13 +24,20 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-router.post('/upload', upload.single('file'), function(req, res, next) {
+router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 	console.log(req.file);
 	if (!req.file) {
 		res.status(500);
 		return next(err);
 	}
-	res.json({ fileUrl: 'http://192.168.0.7:3000/images/' + req.file.filename });
+	Salon.update({
+		avatar: req.file.filename,
+		where: {
+			salon: req.body.salonid,
+		},
+	})
+		.then(salon => res.json(salon))
+		.catch(error => handler.handleError(res, 500, error.message));
 });
 
 module.exports = router;
