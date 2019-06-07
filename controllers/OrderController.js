@@ -39,11 +39,7 @@ router.post(
 			datebooked: req.body.datebooked,
 		})
 			.then(success =>
-				res.json({
-					success: {
-						status: true,
-					},
-				})
+				res.json(success)
 			)
 			.catch(error => handler.handleError(res, 422, error.message));
 	}

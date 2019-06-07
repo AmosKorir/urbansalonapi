@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const handler = require('../utils/Errorhandler');
 const Salon = require('./../models/Salon');
+const Service = require('./../models/Service');
+const Customer = require('./../models/Customer');
 var multer = require('multer');
 const { check, validationResult } = require('express-validator/check');
 var storage = multer.diskStorage({
@@ -33,6 +35,42 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 		return next(err);
 	}
 	Salon.update({ avatar: req.file.filename }, { where: { salonid: userId } })
+		.then(success =>
+			res.json({
+				success: {
+					status: true,
+				},
+			})
+		)
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+router.post('/upload/service', upload.single('file'), function(req, res, next) {
+	var userId = req.body.serviceid;
+	console.log(req.file);
+	if (!req.file) {
+		res.status(500);
+		return next(err);
+	}
+	Salon.update({ avatar: req.file.filename }, { where: { serviceid: userId } })
+		.then(success =>
+			res.json({
+				success: {
+					status: true,
+				},
+			})
+		)
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+router.post('/upload/customer', upload.single('file'), function(req, res, next) {
+	var userId = handler.validateAccessToken(req, res);
+	console.log(req.file);
+	if (!req.file) {
+		res.status(500);
+		return next(err);
+	}
+	Customer.update({ avatar: req.file.filename }, { where: { customerid: userId } })
 		.then(success =>
 			res.json({
 				success: {
