@@ -7,7 +7,6 @@ var config = require('../config/database/_namer');
 
 const { check, validationResult } = require('express-validator/check');
 
-
 router.post(
 	'/',
 	[
@@ -43,7 +42,7 @@ router.post(
 			accesstoken: token,
 		})
 			.then(user => res.json(user))
-			.catch(error => handleError(res,500,error.message));
+			.catch(error => handleError(res, 500, error.message));
 	}
 );
 
@@ -54,8 +53,7 @@ router.post('/login', (req, res) => {
 		},
 	})
 		.then(user => {
-			if (!user)
-				return handleError(res, 404, 'User not found');
+			if (!user) return handleError(res, 404, 'User not found');
 			var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
 			if (passwordIsValid) {
@@ -69,10 +67,8 @@ router.post('/login', (req, res) => {
 
 router.get('/get_user', (req, res) => {
 	var userId = validateAccessToken(req, res);
-	Customer.findAll({
-		where: {
-			customerid: userId,
-		},
+	Customer.findOne({
+		customerid: userId,
 	})
 		.then(user => res.json(user))
 		.catch(error => handleError(res, 500, error.message));
@@ -88,10 +84,10 @@ router.get('/all', (req, res) => {
 
 function validateAccessToken(req, res) {
 	var token = req.headers['x-access-token'];
-	if (!token) return handleError(res,401,'Token no provided');
+	if (!token) return handleError(res, 401, 'Token no provided');
 	var id;
 	jwt.verify(token, config.key, function(err, decoded) {
-		if (err) return handleError(res,500,'Failed to authenticate');
+		if (err) return handleError(res, 500, 'Failed to authenticate');
 		id = decoded.id;
 	});
 
