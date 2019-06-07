@@ -37,6 +37,7 @@ router.post(
 			customerid: userId,
 			timebooked: req.body.timebooked,
 			datebooked: req.body.datebooked,
+			status:0
 		})
 			.then(success =>
 				res.json(success)
