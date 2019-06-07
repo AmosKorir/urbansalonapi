@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
 
 router.get('/get_user', (req, res) => {
 	var userId = validateAccessToken(req, res);
-	Customer.findone({
+	Customer.findAll({
 		where: {
 			customerid: userId,
 		},
