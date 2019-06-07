@@ -72,12 +72,7 @@ router.post('/upload/customer', upload.single('file'), function(req, res, next) 
 	}
 	Customer.update({ avatar: req.file.filename }, { where: { customerid: userId } })
 		.then(success =>
-			res.json({
-				success: {
-					status: true,
-				},
-			})
-		)
+			res.json(success))
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
