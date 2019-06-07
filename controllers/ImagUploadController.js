@@ -68,12 +68,12 @@ router.post('/upload/customer', upload.single('file'), function(req, res, next) 
 	console.log(req.file);
 	if (!req.file) {
 		res.status(500);
-		return next(err);
+		handler.handleError(res, 500,"send upload file")
 	}
-	// Customer.update({ avatar: req.file.filename }, { where: { customerid: userId } })
-	// 	.then(success =>
-	// 		res.json(success))
-	// 	.catch(error => handler.handleError(res, 500, error.message));
+	Customer.update({ avatar: req.file.filename }, { where: { customerid: userId } })
+		.then(success =>
+			res.json(success))
+		.catch(error => handler.handleError(res, 500, error.message));
 });
 
 module.exports = router;
