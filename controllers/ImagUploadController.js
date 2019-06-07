@@ -70,10 +70,10 @@ router.post('/upload/customer', upload.single('file'), function(req, res, next) 
 		res.status(500);
 		return next(err);
 	}
-	Customer.update({ avatar: req.file.filename }, { where: { customerid: userId } })
-		.then(success =>
-			res.json(success))
-		.catch(error => handler.handleError(res, 500, error.message));
+	// Customer.update({ avatar: req.file.filename }, { where: { customerid: userId } })
+	// 	.then(success =>
+	// 		res.json(success))
+	// 	.catch(error => handler.handleError(res, 500, error.message));
 });
 
 module.exports = router;
