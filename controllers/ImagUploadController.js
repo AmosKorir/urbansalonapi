@@ -31,7 +31,6 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 	var userId = handler.validateAccessToken(req, res);
 	console.log(req.file);
 	if (!req.file) {
-		res.status(500);
 		return handler.handleError(res,500,"file is empty");
 	}
 	Salon.update({ avatar: req.file.path }, { where: { salonid: userId } })
@@ -49,10 +48,9 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 	var userId = req.body.serviceid;
 	console.log(req.file);
 	if (!req.file) {
-		res.status(500);
-		return next(err);
+		return handler.handleError(res, 500, "file is empty");
 	}
-	Salon.update({ avatar: req.file.filename }, { where: { serviceid: userId } })
+	Salon.update({ avatar: req.file.path}, { where: { serviceid: userId } })
 		.then(success =>
 			res.json({
 				success: {
@@ -67,10 +65,9 @@ router.post('/upload/customer', upload.single('file'), function(req, res, next) 
 	var userId = handler.validateAccessToken(req, res);
 	console.log(req.file);
 	if (!req.file) {
-		res.status(422);
 		return handler.handleError(res, 500,"send upload file")
 	}
-	Customer.update({ avatar: req.file.filename }, { where: { customerid: userId } })
+	Customer.update({ avatar: req.file.path }, { where: { customerid: userId } })
 		.then(success =>
 			res.json(success))
 		.catch(error => handler.handleError(res, 500, error.message));
