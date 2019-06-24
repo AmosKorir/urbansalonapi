@@ -50,6 +50,8 @@ app.get('/', (req, res) =>
 );
 
 app.get('/avatar');
+app.use('loadimage', express.static(path.join(__dirname, 'public/images')));
+app.use('/viewimage', express.static(path.join(__dirname, 'public/images')));
 
 const port = parseInt(process.env.PORT, 10) || 8200;
 
