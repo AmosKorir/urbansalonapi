@@ -5,6 +5,8 @@ const Salon = require('./../models/Salon');
 const Service = require('./../models/Service');
 const Customer = require('./../models/Customer');
 var multer = require('multer');
+var filename;
+
 const { check, validationResult } = require('express-validator/check');
 var storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -22,7 +24,8 @@ var storage = multer.diskStorage({
 		if (file.mimetype === 'image/jpeg') {
 			filetype = 'jpg';
 		}
-		cb(null, 'image-' + Date.now() + '.' + filetype);
+		filename = 'image-' + Date.now() + '.' + filetype;
+		cb(null, filename);
 	},
 });
 var upload = multer({ storage: storage });
@@ -33,7 +36,7 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 	if (!req.file) {
 		return handler.handleError(res,500,"file is empty");
 	}
-	Salon.update({ avatar: req.file.path }, { where: { salonid: userId } })
+	Salon.update({ avatar: filename }, { where: { salonid: userId } })
 		.then(success =>
 			res.json({
 				success: {
@@ -50,7 +53,7 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 	if (!req.file) {
 		return handler.handleError(res, 500, "file is empty");
 	}
-	Service.update({ avatar: req.file.path }, { where: { serviceid: serviceidd } })
+	Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
 		.then(success =>
 			res.json({
 				success: {
@@ -67,7 +70,7 @@ router.post('/upload/customer', upload.single('file'), function(req, res, next) 
 	if (!req.file) {
 		return handler.handleError(res, 500,"send upload file")
 	}
-	Customer.update({ avatar: req.file.path }, { where: { customerid: userId } })
+	Customer.update({ avatar: filename }, { where: { customerid: userId } })
 		.then(success =>
 			res.json(success))
 		.catch(error => handler.handleError(res, 500, error.message));
