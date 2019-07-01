@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const handler = require('../utils/Errorhandler');
+const salonGraph=require('./../recommender/Recommender')
 const Salon = require('./../models/Salon');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../config/database/_namer');
+
 
 const { check, validationResult } = require('express-validator/check');
 
@@ -53,8 +55,13 @@ router.post(
 			latitude: req.body.latitude,
 			longitude: req.body.longitude,
 			accesstoken: token,
-		})
-			.then(user => res.json(user))
+		},)
+			.then(user => {
+				var jsonString = JSON.stringify(user); //convert to string to remove the sequelize specific meta data
+				var obj = JSON.parse(jsonString);
+				salonGraph.insertSalonGraph(obj);
+				return res.json(user);
+			})
 			.catch(error=>handler.handleError(res, 422, error.message));
 	}
 );

@@ -53,7 +53,7 @@ app.get('/avatar');
 app.use('loadimage', express.static(path.join(__dirname, 'public/images')));
 app.use('/viewimage', express.static(path.join(__dirname, 'public/images')));
 
-const port = parseInt(process.env.PORT, 10) || 8200;
+const port = parseInt(process.env.PORT, 10) || 8201;
 
 app.set('port', port);
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const handler = require('../utils/Errorhandler');
+const salonGraph = require('./../recommender/Recommender')
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
 const { check, validationResult } = require('express-validator/check');
@@ -30,7 +31,13 @@ router.post(
 			price: req.body.price,
 			status: '0',
 		})
-			.then(response => res.json(response))
+			.then(response =>{ 
+				var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
+				var obj = JSON.parse(jsonString);
+				salonGraph.insertServiceGraph(obj);
+				return res.json(response);
+					
+			})
 			.catch(error => handler.handleError(res, 500, error.message));
 	}
 );
@@ -51,7 +58,9 @@ router.get('/salon_self', (req, res) => {
 			},
 		],
 	})
-		.then(response => res.json(response))
+		.then(response =>{
+			res.json(response);
+		})
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
