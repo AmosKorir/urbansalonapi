@@ -9,20 +9,6 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 // var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '9933'));
 const session = driver.session();
 
-
-session
-	.run("CREATE (n {hello: 'World'}) RETURN n.name")
-	.then(function (result) {
-		result.records.forEach(function (record) {
-			console.log(record)
-		});
-
-		session.close();
-	})
-	.catch(function (error) {
-		console.log(error);
-	});
-
 console.log(graphenedbUser+"thgfbdxbjfgjhdbxsvjhvfbos");
 console.log(graphenedbPass);
 
