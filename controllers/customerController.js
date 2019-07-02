@@ -1,5 +1,6 @@
 const express = require('express');
 const Customer = require('./../models/Customer');
+const salonGraph = require('./../recommender/Recommender')
 const router = express.Router();
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
@@ -41,7 +42,12 @@ router.post(
 			password: hashedPassword,
 			accesstoken: token,
 		})
-			.then(user => res.json(user))
+			.then(user => {
+				var jsonString = JSON.stringify(user); //convert to string to remove the sequelize specific meta data
+				var obj = JSON.parse(jsonString);
+				salonGraph.insertCustomer(obj);
+				return res.json(user);
+			})
 			.catch(error => handleError(res, 500, error.message));
 	}
 );
