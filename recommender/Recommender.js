@@ -26,7 +26,8 @@ const customerGraph = function insertCustomer(customer) {
 const serviceGraph = function insertService(service) {
 	// create relationship
 	console.log(service);
-	var cypher = 'MATCH(a:salon{salonid:{salonid}),(b:service) SET b={service} MERGE (a)-[r:PROVIDES]-(b) ';
+	// var cypher = 'MATCH(a:salon{salonid:{salonid}),(b:service) SET b={service} MERGE (a)-[r:PROVIDES]-(b)';
+	var cypher='CREATE(ss:service) SET ss={service} RETURN ss'
 	var params = { salonid: service.salonid, service: service };
 	runSession(cypher, params);
 };
