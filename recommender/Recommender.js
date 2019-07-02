@@ -9,7 +9,7 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 // var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '9933'));
 const session = driver.session();
 
-console.log(graphenedbUser+"thgfbdxbjfgjhdbxsvjhvfbos");
+console.log(graphenedbUser + 'thgfbdxbjfgjhdbxsvjhvfbos');
 console.log(graphenedbPass);
 
 const salonGraph = function insertSalon(salon) {
@@ -26,10 +26,21 @@ const customerGraph = function insertCustomer(customer) {
 const serviceGraph = function insertService(service) {
 	// create relationship
 	console.log(service);
-	// var cypher = 'MATCH (s: salon {salonid:{salonid}}) CREATE (s) -[r:provides]-> (p:service} SET p={service})';
-	var cypher = 'MATCH(s:salon{salonid:{salonid}}),(ss:service) SET ss={service} CREATE (s)-[r:PROVIDES]-(ss)';
-	var params = { salonid: service.salonid, service: service};
-	runSession(cypher, params);
+	var cypher = 'CREATE(c: service) SET c = { service } RETURN c';
+	// var cypher = 'MATCH(s:salon{salonid:{salonid}}),(ss:service) SET ss={service} MERGE (s)-[r:PROVIDES]-(ss)';
+	var params = { salonid: service.salonid, service: service };
+	session
+		.run(cypher, params)
+		.then(u => {
+			session.close();
+			var joiner =
+				'MATCH (s:salon),(ss:service) WHERE s.salonid = {salonid} AND ss.serviceid = {serviceid} (s)-[r:PROVIDES]->(ss)RETURN r';
+			var params = { salonid: service.salonid, serviceid: service.id };
+			runSession(joiner, params);
+		})
+		.catch(err => {
+			console.log(err);
+		});
 };
 const runSession = function runSession(cypher, params) {
 	session
@@ -45,13 +56,13 @@ const runSession = function runSession(cypher, params) {
 
 const orderGraph = function insertOrderGraph(order) {
 	var cypher = 'MATCH(a:customer{customerid:{customerid}),(b:service{serviceid:{serviceid}})';
-	var params = { serviceid: order.serviceid, customerid:customerid };
-	runSession(cypher,params)
+	var params = { serviceid: order.serviceid, customerid: customerid };
+	runSession(cypher, params);
 };
 
 module.exports = {
 	insertSalonGraph: salonGraph,
 	insertServiceGraph: serviceGraph,
 	insertCustomer: customerGraph,
-	insertOrders:orderGraph,
+	insertOrders: orderGraph,
 };
