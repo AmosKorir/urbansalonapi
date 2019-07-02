@@ -22,7 +22,7 @@ session
 	.catch(function (error) {
 		console.log(error);
 	});
-	
+
 console.log(graphenedbUser+"thgfbdxbjfgjhdbxsvjhvfbos");
 console.log(graphenedbPass);
 
@@ -64,7 +64,6 @@ const orderGraph = function insertOrderGraph(order) {
 module.exports = {
 	insertSalonGraph: salonGraph,
 	insertServiceGraph: serviceGraph,
-
 	insertCustomer: customerGraph,
 	insertOrders:orderGraph,
 };
