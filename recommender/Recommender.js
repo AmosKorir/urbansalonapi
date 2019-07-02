@@ -34,8 +34,8 @@ const serviceGraph = function insertService(service) {
 		.then(u => {
 			session.close();
 			var joiner =
-				'MATCH (s:salon),(ss:service) WHERE s.salonid = {salonid} AND ss.salonid = {salonid} (s)-[r:PROVIDES]->(ss)RETURN r';
-			var params = { salonid: service.salonid };
+				'MATCH (s:salon),(ss:service) WHERE s.salonid = {salonid} AND ss.serviceid = {serviceid} CREATE (s)-[r:PROVIDES]->(ss)RETURN r';
+			var params = { salonid: service.salonid, serviceid: service.id };
 			runSession(joiner, params);
 		})
 		.catch(err => {
