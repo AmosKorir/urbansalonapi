@@ -9,6 +9,7 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 // var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '9933'));
 const session = driver.session();
 console.log(graphenedbUser);
+console.log(graphenedbPass);
 
 const salonGraph = function insertSalon(salon) {
 	var cypher = 'CREATE (s:salon) SET s = {salon} RETURN s';
