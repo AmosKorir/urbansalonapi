@@ -4,6 +4,8 @@ const handler = require('../utils/Errorhandler');
 const Salon = require('./../models/Salon');
 const Service = require('./../models/Service');
 const Customer = require('./../models/Customer');
+const salonGraph = require('./../recommender/Recommender')
+
 var multer = require('multer');
 var filename;
 
@@ -54,12 +56,16 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 		return handler.handleError(res, 500, "file is empty");
 	}
 	Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
-		.then(success =>
+		.then(response =>{
+			var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
+			var obj = JSON.parse(jsonString);
+			salonGraph.insertServiceGraph(obj);
+			console.log(jsonString);
 			res.json({
 				success: {
 					status: true,
 				},
-			})
+			})}
 		)
 		.catch(error => handler.handleError(res, 500, error.message));
 });
