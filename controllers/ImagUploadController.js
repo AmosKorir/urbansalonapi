@@ -59,7 +59,7 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 		.then(response =>{
 			var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
 			var obj = JSON.parse(jsonString);
-			salonGraph.insertServiceGraph(obj);
+			// salonGraph.insertServiceGraph(obj);
 			console.log(jsonString);
 			res.json({
 				success: {
