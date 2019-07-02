@@ -8,7 +8,7 @@ var graphenedbPass = process.env.GRAPHENEDB_BOLT_PASSWORD;
 var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
 // var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '9933'));
 const session = driver.session();
-console.log(graphenedbUser);
+console.log(graphenedbUser+"thgfbdxbjfgjhdbxsvjhvfbos");
 console.log(graphenedbPass);
 
 const salonGraph = function insertSalon(salon) {
@@ -49,6 +49,7 @@ const orderGraph = function insertOrderGraph(order) {
 module.exports = {
 	insertSalonGraph: salonGraph,
 	insertServiceGraph: serviceGraph,
+
 	insertCustomer: customerGraph,
 	insertOrders:orderGraph,
 };
