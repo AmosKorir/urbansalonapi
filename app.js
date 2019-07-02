@@ -49,28 +49,6 @@ app.get('/', (req, res) =>
 	})
 );
 
-const neo4j = require('neo4j-driver').v1;
-var graphenedbURL = process.env.GRAPHENEDB_BOLT_URL;
-var graphenedbUser = process.env.GRAPHENEDB_BOLT_USER;
-var graphenedbPass = process.env.GRAPHENEDB_BOLT_PASSWORD;
-
-var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
-// var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '9933'));
-const session = driver.session();
-
-
-session
-	.run("CREATE (n {hello: 'World'}) RETURN n.name")
-	.then(function (result) {
-		result.records.forEach(function (record) {
-			console.log(record)
-		});
-
-		session.close();
-	})
-	.catch(function (error) {
-		console.log(error);
-	});
 
 app.get('/avatar');
 app.use('loadimage', express.static(path.join(__dirname, 'public/images')));
