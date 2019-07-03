@@ -56,8 +56,8 @@ const runSession = function runSession(cypher, params) {
 
 const orderGraph = function insertOrderGraph(order) {
 	console.log(order);
-	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customer={customerid} AND b.serviceid={serviceid} CREATE (a)-[r:BOOKED]->(b)';
-	var params = { serviceid: 85, customerid: "7773863507" };
+	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} CREATE (a)-[r:BOOKED]->(b)';
+	var params = { serviceid: 84, customerid: order.customerid };
 	runSession(cypher, params);
 };
 
