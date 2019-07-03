@@ -6,7 +6,6 @@ module.exports = {
 			serviceid: {
 				type: Sequelize.STRING(300),
 				allowNull: false,
-				autoIncrement: true,
 				primaryKey: true,
 			},
 			salonid: {
