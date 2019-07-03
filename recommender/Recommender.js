@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const uuidv1 = require('uuid/v1')
 const neo4j = require('neo4j-driver').v1;
 var graphenedbURL = process.env.GRAPHENEDB_BOLT_URL;
 var graphenedbUser = process.env.GRAPHENEDB_BOLT_USER;
@@ -56,7 +57,6 @@ const runSession = function runSession(cypher, params) {
 
 const orderGraph = function insertOrderGraph(order) {
 	console.log(order);
-	console.log(parseFloat(order.serviceid+""));
 	var sid=order.serviceid;
 	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} CREATE (a)-[r:BOOKED]->(b)';
 	var params = { serviceid: sid, customerid: order.customerid.toString() };

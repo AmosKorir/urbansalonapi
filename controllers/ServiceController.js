@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const uuidv1 = require('uuid/v1')
 const handler = require('../utils/Errorhandler');
 const salonGraph = require('./../recommender/Recommender')
 const Service = require('./../models/Service');
@@ -26,6 +27,7 @@ router.post(
 		var userId = handler.validateAccessToken(req, res);
 
 		Service.create({
+			serviceid:uuidv1(),
 			salonid: userId,
 			name: req.body.name,
 			price: req.body.price,
