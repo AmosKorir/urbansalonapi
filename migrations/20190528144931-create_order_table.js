@@ -10,11 +10,11 @@ module.exports = {
 				primaryKey: true,
 			},
 			customerid: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(300),
 				allowNull: false,
 			},
 			serviceid: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(300),
 				allowNull: false,
 			},
 			orderno: {
