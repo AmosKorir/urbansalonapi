@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const Service = sequelize.define('service', {
 	serviceid: {
-		type: Sequelize.INTEGER,
+		type: Sequelize.STRING(300),
 		allowNull: false,
 		autoIncrement: true,
 		primaryKey: true,

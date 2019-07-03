@@ -4,7 +4,7 @@ module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('services', {
 			serviceid: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING(300),
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
