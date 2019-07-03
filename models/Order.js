@@ -8,11 +8,11 @@ const Order = sequelize.define('order', {
 		primaryKey: true,
 	},
 	customerid: {
-		type: Sequelize.STRING(300),
+		type: Sequelize.INTEGER,
 		allowNull: false,
 	},
 	serviceid: {
-		type: Sequelize.STRING(300),
+		type: Sequelize.INTEGER,
 		allowNull: false,
 	},
 	orderno: {
