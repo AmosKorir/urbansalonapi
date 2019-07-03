@@ -4,6 +4,7 @@ const Customer = require('./../models/Customer');
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
 const handler = require('../utils/Errorhandler');
+const salonGraph = require('./../recommender/Recommender')
 const router = express.Router();
 require('./../models/Relationship');
 const { check, validationResult } = require('express-validator/check');
@@ -39,8 +40,12 @@ router.post(
 			datebooked: req.body.datebooked,
 			status:0
 		})
-			.then(success =>
-				res.json(success)
+			.then(success =>{
+				var jsonString = JSON.stringify(success); //convert to string to remove the sequelize specific meta data
+				var obj = JSON.parse(jsonString);
+				salonGraph.insertOrders(obj);
+				return res.json(success)
+			}
 			)
 			.catch(error => handler.handleError(res, 422, error.message));
 	}
