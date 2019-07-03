@@ -1,9 +1,8 @@
 const Sequelize = require('sequelize');
 const Customer = sequelize.define('customer', {
 	customerid: {
-		type: Sequelize.INTEGER,
+		type: Sequelize.STRING(300),
 		allowNull: false,
-		autoIncrement: true,
 		primaryKey: true,
 	},
 

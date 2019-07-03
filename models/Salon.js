@@ -1,9 +1,8 @@
 const Sequelize = require('sequelize');
 const Salon = sequelize.define('salon', {
 	salonid: {
-		type: Sequelize.INTEGER,
+		type: Sequelize.STRING(300),
 		allowNull: false,
-		autoIncrement: true,
 		primaryKey: true,
 	},
 	name: Sequelize.STRING(300),
