@@ -116,6 +116,11 @@ router.get('/customer', (req, res) => {
 					},
 				],
 			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
 		],
 	})
 		.then(response => res.json(response))
