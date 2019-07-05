@@ -101,13 +101,13 @@ router.get('/salon', (req, res) => {
 router.get('/customer', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
+		where: {
+			customerid: userId,
+		},
 		include: [
 			{
 				model: Service,
 				as: 'service',
-				where: {
-					salonid: userId,
-				},
 				include: [
 					{
 						model: Salon,
