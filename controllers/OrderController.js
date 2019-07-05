@@ -71,7 +71,7 @@ router.get('/salon', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		where: {
-			customerid: userId,
+			salonid: userId,
 		},
 
 		include: [
