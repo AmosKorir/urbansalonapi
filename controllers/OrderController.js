@@ -67,7 +67,7 @@ router.get('/all', (req, res) => {
 });
 
 //get order by customerId
-router.get('/customer', (req, res) => {
+router.get('/salon', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		where: {
@@ -98,7 +98,7 @@ router.get('/customer', (req, res) => {
 });
 
 //get orders by salon id
-router.get('/salon', (req, res) => {
+router.get('/customer', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		include: [
