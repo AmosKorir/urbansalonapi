@@ -69,7 +69,15 @@ router.get('/salon_self', (req, res) => {
 
 // function to get all the services
 router.get('/all', (req, res) => {
-	Service.findAll()
+	Service.findAll({
+		include: [
+			{
+				model: Salon,
+				as: 'salon',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
 		.then(response => res.json(response))
 		.catch(error => handler.handleError(res, 500, error.message));
 });
