@@ -6,7 +6,7 @@ const Service = sequelize.define('service', {
 		primaryKey: true,
 	},
 	salonid: {
-		type: Sequelize.INTEGER,
+		type: Sequelize.STRING(300),
 		allowNull: false,
 	},
 
