@@ -96,12 +96,26 @@ router.get('/salon', (req, res) => {
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
+//customer to cancel the order
+router.post(
+	'order/cancel',
+	[
+		check('orderid')
+			.not()
+			.isEmpty(),
+	],
+	(req, res) => {
+		const errors = validationResult(req);
+	}
+);
+
 //get orders by salon id
-router.get('/customer', (req, res) => {
+router.get('/customer/closed', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		where: {
 			customerid: userId,
+			status: 1,
 		},
 		include: [
 			{
@@ -122,6 +136,43 @@ router.get('/customer', (req, res) => {
 			},
 		],
 	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+//get closed orders
+router.get('/customer/active', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		where: {
+			customerid: userId,
+			status: 0,
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+router.put('/status', function(req, res, next) {
+	Order.update({ status: req.body.status }, { where: req.params.orderid })
 		.then(response => res.json(response))
 		.catch(error => handler.handleError(res, 500, error.message));
 });
