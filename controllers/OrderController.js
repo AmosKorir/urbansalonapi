@@ -69,10 +69,6 @@ router.get('/all', (req, res) => {
 router.get('/salon', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
-		where: {
-			salonid: userId,
-		},
-
 		include: [
 			{
 				model: Service,
@@ -172,10 +168,17 @@ router.get('/customer/active', (req, res) => {
 });
 
 router.put('/status', function(req, res) {
+	var userId = handler.validateAccessToken(req, res);
 	var orderid=parseInt(req.body.status);
 	Order.update({ status: req.body.status }, {
 		 where:{orderid: orderid }},)
-		.then(response => res.json(response))
+		.then(success =>
+			res.json({
+				success: {
+					status: true,
+				},
+			})
+		)
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
