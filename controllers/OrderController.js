@@ -171,8 +171,9 @@ router.get('/customer/active', (req, res) => {
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
-router.put('/status', function(req, res, next) {
-	Order.update({ status: req.body.status }, { where: req.params.orderid })
+router.put('/status', function(req, res) {
+	Order.update({ status: req.body.status }, {
+		 where:{orderid: req.params.orderid }},)
 		.then(response => res.json(response))
 		.catch(error => handler.handleError(res, 500, error.message));
 });
