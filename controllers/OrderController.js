@@ -172,8 +172,9 @@ router.get('/customer/active', (req, res) => {
 });
 
 router.put('/status', function(req, res) {
+	var orderid=parseInt(req.body.status);
 	Order.update({ status: req.body.status }, {
-		 where:{orderid: req.params.orderid }},)
+		 where:{orderid: orderid }},)
 		.then(response => res.json(response))
 		.catch(error => handler.handleError(res, 500, error.message));
 });
