@@ -102,5 +102,5 @@ router.get('/all',(req,res)=>{
 	.then(user => res.json(user))
 		.catch(error => handler.handleError(res, 500, error.message));
 })
-
+MATCH p = (: customer{ name: "moses" }) -[r: BOOKED] -> (s: service) -[h: BOOKED] - (c: customer) -[b: BOOKED] - (ss: service) RETURN ss LIMIT 25
 module.exports = router;
