@@ -69,7 +69,8 @@ router.get('/salon_self', (req, res) => {
 
 // function to get all the services
 router.get('/all', (req, res) => {
-	var userId = handler.validateAccessToken(req, res);
+	const ipInfo = req.ipInfo;
+	console.log(ipInfo);
 	Service.findAll({
 
 		include: [

@@ -1,8 +1,9 @@
 const express = require('express');
-require('./config/database/database');
+const expressip = require('express-ip');
 const logger = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
+require('./config/database/database');
 
 // This will be our application entry. We'll setup our server here.
 
@@ -19,7 +20,7 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 
 app.use(bodyParser.json());
-
+app.use(expressip().getIpInfoMiddleware);
 app.use(bodyParser.urlencoded({ extended: true }));
 var publicDir = require('path').join(__dirname, '/public');
 app.use('/view', express.static(publicDir));
@@ -35,6 +36,7 @@ const Salon = require('./controllers/SalonController');
 const Service = require('./controllers/ServiceController');
 const Image = require('./controllers/ImagUploadController');
 const expressValidator = require('express-validator');
+
 app.use(expressValidator());
 require('./models/Relationship');
 app.use('/customer', Customer);
@@ -48,7 +50,6 @@ app.get('/', (req, res) =>
 		message: 'Welcome to the beginning of nothingness.',
 	})
 );
-
 
 app.get('/avatar');
 app.use('loadimage', express.static(path.join(__dirname, 'public/images')));
