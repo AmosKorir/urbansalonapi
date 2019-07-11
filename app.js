@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const path = require('path');
+const expressip=require('express-ip');
 const bodyParser = require('body-parser');
 require('./config/database/database');
 
@@ -15,12 +16,7 @@ var publicDir = require('path').join(__dirname, '/public');
 app.use('/view', express.static(publicDir)); 
 var where = require('node-where');
 
-app.use(function (req, res, next) {
-	where.is(req.ip, function (err, result) {
-		req.geoip = result;
-		next();
-	});
-});
+app.use(expressip().getIpInfoMiddleware);
  
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 
