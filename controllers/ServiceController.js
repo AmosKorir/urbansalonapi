@@ -69,7 +69,11 @@ router.get('/salon_self', (req, res) => {
 
 // function to get all the services
 router.get('/all', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
 	Service.findAll({
+		where: {
+			salonid: userId,
+		},
 		include: [
 			{
 				model: Salon,
@@ -78,7 +82,9 @@ router.get('/all', (req, res) => {
 			},
 		],
 	})
-		.then(response => res.json(response))
+		.then(response => {
+			res.json(response);
+		})
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 module.exports = router;
