@@ -71,9 +71,7 @@ router.get('/salon_self', (req, res) => {
 router.get('/all', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Service.findAll({
-		where: {
-			salonid: userId,
-		},
+
 		include: [
 			{
 				model: Salon,
