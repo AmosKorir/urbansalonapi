@@ -1,30 +1,27 @@
 const express = require('express');
-const expressip = require('express-ip');
 const logger = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
 require('./config/database/database');
 
-// This will be our application entry. We'll setup our server here.
-
 const http = require('http');
-
-// Set up the express app
 
 const app = express();
 
-// Log requests to the console.
-
 app.use(logger('dev'));
-
-// Parse incoming requests data (https://github.com/expressjs/body-parser)
-
 app.use(bodyParser.json());
-app.use(expressip().getIpInfoMiddleware);
 app.use(bodyParser.urlencoded({ extended: true }));
 var publicDir = require('path').join(__dirname, '/public');
-app.use('/view', express.static(publicDir));
+app.use('/view', express.static(publicDir)); 
+var where = require('node-where');
 
+app.use(function (req, res, next) {
+	where.is(req.ip, function (err, result) {
+		req.geoip = result;
+		next();
+	});
+});
+ 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 
 //Db connection

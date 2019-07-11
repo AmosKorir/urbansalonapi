@@ -69,7 +69,7 @@ router.get('/salon_self', (req, res) => {
 
 // function to get all the services
 router.get('/all', (req, res) => {
-	const ipInfo = req.ipInfo;
+	const ipInfo = req.geoip;
 	console.log(ipInfo);
 	Service.findAll({
 
