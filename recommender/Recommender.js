@@ -64,23 +64,24 @@ const orderGraph = function insertOrderGraph(order) {
 	runSession(cypher, params);
 };
 
-const jsonSession=function jsonSession(cypher,params){
+const jsonSession=function jsonSession(cypher,params,callBack){
 	session.run(cypher,params)
 	.then(result=>{
-		console.log(result);
-		return result;
+		callBack(result);
 	})
 	.catch(err=>{
 		console.log(err);
-		return Error(err);
+		throw err;
 	})
 }
 
 
-const predictGraph= function getServiceGraph(userid){
+const predictGraph= function getServiceGraph(userid,callBack){
 	var cypher = 'MATCH (a:customer) WHERE a.customerid={customerid} RETURN a';
 	var params = {customerid:userid };
-	return jsonSession(cypher,params);
+	return jsonSession(cypher,params,function(result){
+		console.log(result);
+	});
 }
 
 module.exports = {
