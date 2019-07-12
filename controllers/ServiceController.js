@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const uuidv1 = require('uuid/v1')
+const uuidv1 = require('uuid/v1');
 const handler = require('../utils/Errorhandler');
-const salonGraph = require('./../recommender/Recommender')
+const salonGraph = require('./../recommender/Recommender');
+const predict = require('../recommender/Recommender');
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
 const { check, validationResult } = require('express-validator/check');
@@ -27,19 +28,18 @@ router.post(
 		var userId = handler.validateAccessToken(req, res);
 
 		Service.create({
-			serviceid:uuidv1(),
+			serviceid: uuidv1(),
 			salonid: userId,
 			name: req.body.name,
 			price: req.body.price,
 			status: '0',
 		})
-			.then(response =>{ 
+			.then(response => {
 				var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
 				var obj = JSON.parse(jsonString);
 				salonGraph.insertServiceGraph(obj);
 				console.log(jsonString);
 				return res.json(response);
-					
 			})
 			.catch(error => handler.handleError(res, 500, error.message));
 	}
@@ -61,7 +61,7 @@ router.get('/salon_self', (req, res) => {
 			},
 		],
 	})
-		.then(response =>{
+		.then(response => {
 			res.json(response);
 		})
 		.catch(error => handler.handleError(res, 500, error.message));
@@ -72,7 +72,6 @@ router.get('/all', (req, res) => {
 	const ipInfo = req.ipInfo;
 	console.log(ipInfo);
 	Service.findAll({
-
 		include: [
 			{
 				model: Salon,
@@ -85,5 +84,19 @@ router.get('/all', (req, res) => {
 			res.json(response);
 		})
 		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+//function to get the service prediction
+router.get('/recommendation', (req, res) => {
+	var userid = handler.getUserId(req, res);
+	//create graph instance from function;
+	predict
+		.predict(userid)
+		.then(result => {
+			console.log(result);
+		})
+		.catch(error => {
+			console.log(error);
+		});
 });
 module.exports = router;

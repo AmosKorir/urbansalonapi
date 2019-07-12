@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const uuidv1 = require('uuid/v1')
 const neo4j = require('neo4j-driver').v1;
+const handler = require('../utils/Errorhandler');
 var graphenedbURL = process.env.GRAPHENEDB_BOLT_URL;
 var graphenedbUser = process.env.GRAPHENEDB_BOLT_USER;
 var graphenedbPass = process.env.GRAPHENEDB_BOLT_PASSWORD;
@@ -63,9 +64,27 @@ const orderGraph = function insertOrderGraph(order) {
 	runSession(cypher, params);
 };
 
+const jsonSession=function jsonSession(cypher,params){
+	session.run(cypher,params)
+	.then(result=>{
+		return result;
+	})
+	.catch(err=>{
+		return Error(err);
+	})
+}
+
+
+const predict= function predict_service(userid){
+	var cypher = 'MATCH (a:customer) WHERE a.customerid={customerid}';
+	var params = {customerid:userid };
+	return jsonSession(cypher,params);
+}
+
 module.exports = {
 	insertSalonGraph: salonGraph,
 	insertServiceGraph: serviceGraph,
 	insertCustomer: customerGraph,
 	insertOrders: orderGraph,
+	predict:predict,
 };
