@@ -90,13 +90,6 @@ router.get('/all', (req, res) => {
 router.get('/recommendation', (req, res) => {
 	var userid = handler.getUserId(req, res);
 	//create graph instance from function;
-	predict
-		.predict(userid)
-		.then(result => {
-			console.log(result);
-		})
-		.catch(error => {
-			console.log(error);
-		});
+	predict.predict(userid);
 });
 module.exports = router;
