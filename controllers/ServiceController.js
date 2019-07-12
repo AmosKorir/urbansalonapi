@@ -93,7 +93,7 @@ router.get('/recommendation', (req, res) => {
 	var result = predicter.getServiceGraph(userid,(result)=>{
 		var serviceArr=[];
 		result.records.forEach(element => {
-		console.log(element);
+		// console.log(element);
 		});
 		res.json(serviceArr);
 	});
