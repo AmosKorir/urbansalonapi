@@ -67,9 +67,11 @@ const orderGraph = function insertOrderGraph(order) {
 const jsonSession=function jsonSession(cypher,params){
 	session.run(cypher,params)
 	.then(result=>{
+		console.log(result);
 		return result;
 	})
 	.catch(err=>{
+		console.log(err);
 		return Error(err);
 	})
 }
