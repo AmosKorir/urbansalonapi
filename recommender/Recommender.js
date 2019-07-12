@@ -71,7 +71,6 @@ const jsonSession=function jsonSession(cypher,params,callBack){
 	})
 	.catch(err=>{
 		console.log(err);
-		throw err;
 	})
 }
 
