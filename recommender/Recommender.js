@@ -77,7 +77,7 @@ const jsonSession=function jsonSession(cypher,params){
 }
 
 
-const predict= function predict_service(userid){
+const predictGraph= function getServiceGraph(userid){
 	var cypher = 'MATCH (a:customer) WHERE a.customerid={customerid}';
 	var params = {customerid:userid };
 	return jsonSession(cypher,params);
@@ -88,5 +88,5 @@ module.exports = {
 	insertServiceGraph: serviceGraph,
 	insertCustomer: customerGraph,
 	insertOrders: orderGraph,
-	predicter:predict,
+	getServiceGraph:predictGraph,
 };
