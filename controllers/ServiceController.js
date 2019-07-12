@@ -3,7 +3,7 @@ const router = express.Router();
 const uuidv1 = require('uuid/v1');
 const handler = require('../utils/Errorhandler');
 const salonGraph = require('./../recommender/Recommender');
-const predict = require('../recommender/Recommender');
+const predicter = require('../recommender/Recommender');
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
 const { check, validationResult } = require('express-validator/check');
@@ -90,7 +90,7 @@ router.get('/all', (req, res) => {
 router.get('/recommendation', (req, res) => {
 	var userid = handler.getUserId(req, res);
 	//create graph instance from function;
-	var result = predict.predict_service(userid);
+	var result = predicter.predict(userid);
 	console.log(result);
 });
 module.exports = router;

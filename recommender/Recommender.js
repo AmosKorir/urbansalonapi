@@ -88,5 +88,5 @@ module.exports = {
 	insertServiceGraph: serviceGraph,
 	insertCustomer: customerGraph,
 	insertOrders: orderGraph,
-	predict:predict,
+	predicter:predict,
 };
