@@ -66,10 +66,6 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 	uploader(req.file.path, 'directory/images/' + filename,s=>{
 		Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
 			.then(response => {
-				var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
-				var obj = JSON.parse(jsonString);
-				// salonGraph.insertServiceGraph(obj);
-				console.log(jsonString);
 				res.json({
 					success: {
 						status: true,
@@ -81,35 +77,6 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 			handler.handleError(res, 500, error.message)
 	}
 	)
-
-
-
-	bucket.upload(
-		req.file.path,
-		{
-			destination: 'directory/images/' + filename,
-			public: true,
-		},
-		(err, file) => {
-			if (!err) {
-				Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
-					.then(response => {
-						var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
-						var obj = JSON.parse(jsonString);
-						// salonGraph.insertServiceGraph(obj);
-						console.log(jsonString);
-						res.json({
-							success: {
-								status: true,
-							},
-						});
-					})
-					.catch(error => handler.handleError(res, 500, error.message));
-			} else {
-				handler.handleError(res, 500, err);
-			}
-		}
-	);
 });
 
 router.post('/upload/customer', upload.single('file'), function(req, res, next) {
