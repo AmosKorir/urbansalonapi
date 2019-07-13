@@ -97,6 +97,8 @@ router.get('/recommendation', (req, res) => {
 			element.forEach(node=>{
 				console.log(node);
 			})
+
+			console.log("end of a single node");
 			
 		});
 		res.json(serviceArr);
