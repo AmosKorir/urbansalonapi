@@ -4,11 +4,21 @@ const handler = require('../utils/Errorhandler');
 const Salon = require('./../models/Salon');
 const Service = require('./../models/Service');
 const Customer = require('./../models/Customer');
-const salonGraph = require('./../recommender/Recommender')
+const salonGraph = require('./../recommender/Recommender');
+var filename;
+var filetype = '';
+var admin = require('firebase-admin');
+var bucketName = 'gs://mapenzi-1481b.appspot.com';
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount),
+	databaseURL: 'https://mapenzi-1481b.firebaseio.com',
+	storageBucket: '//mapenzi-1481b.appspot.com',
+});
+
 
 var multer = require('multer');
 var filename;
-
+var bucket = admin.storage().bucket(bucketName);
 const { check, validationResult } = require('express-validator/check');
 var storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -51,23 +61,33 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 
 router.post('/upload/service', upload.single('file'), function(req, res, next) {
 	var serviceidd = req.body.serviceid;
-	console.log(req.file);
 	if (!req.file) {
 		return handler.handleError(res, 500, "file is empty");
 	}
-	Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
-		.then(response =>{
-			var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
-			var obj = JSON.parse(jsonString);
-			// salonGraph.insertServiceGraph(obj);
-			console.log(jsonString);
-			res.json({
-				success: {
-					status: true,
-				},
-			})}
-		)
-		.catch(error => handler.handleError(res, 500, error.message));
+	bucket.upload(req.file.path,{
+		destination: 'directory/images/' + filename, public: true
+	}, (err, file) => {
+
+		if(!err){
+			Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
+				.then(response => {
+					var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
+					var obj = JSON.parse(jsonString);
+					// salonGraph.insertServiceGraph(obj);
+					console.log(jsonString);
+					res.json({
+						success: {
+							status: true,
+						},
+					})
+				}
+				)
+				.catch(error => handler.handleError(res, 500, error.message));
+		}else{
+			handler.handleError(res,500,err);
+		}
+	});
+	
 });
 
 router.post('/upload/customer', upload.single('file'), function(req, res, next) {
