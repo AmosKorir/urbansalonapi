@@ -91,12 +91,12 @@ router.get('/recommendation', (req, res) => {
 	var userid = handler.getUserId(req, res);
 	//create graph instance from function;
 	var result = predicter.getServiceGraph(userid,(result)=>{
+		console.log(result);
 		var serviceArr=[];
 		result.records.forEach(element => {
 			console.log(element._fields.Node);
 		});
 		res.json(serviceArr);
 	});
-	console.log(result);
 });
 module.exports = router;
