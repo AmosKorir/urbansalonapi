@@ -76,7 +76,7 @@ const jsonSession=function jsonSession(cypher,params,callBack){
 
 
 const predictGraph= function getServiceGraph(userid,callBack){
-	var cypher = 'MATCH (a:service) RETURN {serviceid:a.serviceid,name:a.name,price:a.price}';
+	var cypher = 'MATCH (a:service) RETURN a';
 	var params = {customerid:userid };
 	 jsonSession(cypher,params,function(result){
 		callBack(result);
