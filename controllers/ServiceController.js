@@ -90,17 +90,23 @@ router.get('/all', (req, res) => {
 router.get('/recommendation', (req, res) => {
 	var userid = handler.getUserId(req, res);
 	//create graph instance from function;
-	var result = predicter.getServiceGraph(userid,(result)=>{
-		var serviceArr=[];
+	var result = predicter.getServiceGraph(userid, result => {
+		var serviceArr = [];
 		result.records.forEach(element => {
+			var switcher = false;
+			var service;
+			element.forEach(node => {
+				service = node.properties;
+				if (switcher) {
+					service.salon = node;
+					serviceArr.push(service);
+				} else {
+					service = node.properties;
+					switcher = true;
+				}
+			});
 
-			element.forEach(node=>{
-				serviceArr.push(node.properties);
-				console.log(node);
-			})
-
-			console.log("end of a single node");
-			
+			console.log('end of a single node');
 		});
 		res.json(serviceArr);
 	});
