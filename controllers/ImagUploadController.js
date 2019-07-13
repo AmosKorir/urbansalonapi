@@ -7,8 +7,10 @@ const Customer = require('./../models/Customer');
 const salonGraph = require('./../recommender/Recommender');
 var filename;
 var filetype = '';
+var serviceAccount = require('./../config/database/');
 var admin = require('firebase-admin');
 var bucketName = 'gs://mapenzi-1481b.appspot.com';
+var serviceAccount = require('./../config/mapenzi-1481b-firebase-adminsdk-7ayfn-1e0afd8b75.json');
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 	databaseURL: 'https://mapenzi-1481b.firebaseio.com',
