@@ -102,7 +102,7 @@ router.get('/recommendation', (req, res) => {
 			console.log("end of a single node");
 			
 		});
-		if(serviceArr.length()==0){
+		if(serviceArr.length==0){
 			Service.findAll({
 				include: [
 					{
