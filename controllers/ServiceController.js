@@ -100,6 +100,7 @@ router.get('/recommendation', (req, res) => {
 				if (switcher) {
 					service.salon = node;
 					serviceArr.push(service);
+					console.log(service);
 				} else {
 					service = node.properties;
 					switcher = true;
