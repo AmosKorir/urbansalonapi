@@ -102,6 +102,22 @@ router.get('/recommendation', (req, res) => {
 			console.log("end of a single node");
 			
 		});
+		if(serviceArr.length()==0){
+			Service.findAll({
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			})
+				.then(response => {
+					res.json(response);
+				})
+				.catch(error => handler.handleError(res, 500, error.message));
+		}
+
 		res.json(serviceArr);
 	});
 });
