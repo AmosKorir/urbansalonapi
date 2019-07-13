@@ -94,6 +94,7 @@ router.get('/recommendation', (req, res) => {
 		var serviceArr = [];
 		var switcher = false;
 		var service;
+		console.log(result);
 		result.records.forEach(element => {
 		
 			element.forEach(node => {
