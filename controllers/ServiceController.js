@@ -98,7 +98,7 @@ router.get('/recommendation', (req, res) => {
 		result.records.forEach(element => {
 			console.log(element);
 			element.forEach(node => {
-				console.log("inner"+stringify(node));
+				console.log(node.services);
 				service = node.properties;
 				if (switcher) {
 					service.salon = node;
