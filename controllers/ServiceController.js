@@ -95,7 +95,7 @@ router.get('/recommendation', (req, res) => {
 		result.records.forEach(element => {
 
 			element.forEach(node=>{
-				serviceArr.push(node);
+				serviceArr.push(node.properties);
 				console.log(node);
 			})
 
