@@ -95,7 +95,7 @@ router.get('/recommendation', (req, res) => {
 		result.records.forEach(element => {
 
 			element.forEach(node=>{
-				console.log(node.Node.properties);
+				console.log(node.Node);
 			})
 			
 		});
