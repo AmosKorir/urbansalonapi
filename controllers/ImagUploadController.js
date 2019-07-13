@@ -6,7 +6,6 @@ const Service = require('./../models/Service');
 const Customer = require('./../models/Customer');
 const salonGraph = require('./../recommender/Recommender');
 var filename;
-var filetype = '';
 var admin = require('firebase-admin');
 var bucketName = 'gs://mapenzi-1481b.appspot.com';
 const serviceAccount = require('./../config/mapenzi-1481b-firebase-adminsdk-7ayfn-1e0afd8b75.json');
@@ -15,7 +14,6 @@ admin.initializeApp({
 	databaseURL: 'https://mapenzi-1481b.firebaseio.com',
 	storageBucket: '//mapenzi-1481b.appspot.com',
 });
-
 
 var multer = require('multer');
 var filename;
@@ -47,7 +45,7 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 	var userId = handler.validateAccessToken(req, res);
 	console.log(req.file);
 	if (!req.file) {
-		return handler.handleError(res,500,"file is empty");
+		return handler.handleError(res, 500, 'file is empty');
 	}
 	Salon.update({ avatar: filename }, { where: { salonid: userId } })
 		.then(success =>
@@ -63,44 +61,87 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 router.post('/upload/service', upload.single('file'), function(req, res, next) {
 	var serviceidd = req.body.serviceid;
 	if (!req.file) {
-		return handler.handleError(res, 500, "file is empty");
+		return handler.handleError(res, 500, 'file is empty');
 	}
-	bucket.upload(req.file.path,{
-		destination: 'directory/images/' + filename, public: true
-	}, (err, file) => {
+	uploader(req.file.path, 'directory/images/' + filename,s=>{
+		Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
+			.then(response => {
+				var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
+				var obj = JSON.parse(jsonString);
+				// salonGraph.insertServiceGraph(obj);
+				console.log(jsonString);
+				res.json({
+					success: {
+						status: true,
+					},
+				});
+			})
+			.catch(error => handler.handleError(res, 500, error.message));
+	},(error)=>{
+			handler.handleError(res, 500, error.message)
+	}
+	)
 
-		if(!err){
-			Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
-				.then(response => {
-					var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
-					var obj = JSON.parse(jsonString);
-					// salonGraph.insertServiceGraph(obj);
-					console.log(jsonString);
-					res.json({
-						success: {
-							status: true,
-						},
+
+
+	bucket.upload(
+		req.file.path,
+		{
+			destination: 'directory/images/' + filename,
+			public: true,
+		},
+		(err, file) => {
+			if (!err) {
+				Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
+					.then(response => {
+						var jsonString = JSON.stringify(response); //convert to string to remove the sequelize specific meta data
+						var obj = JSON.parse(jsonString);
+						// salonGraph.insertServiceGraph(obj);
+						console.log(jsonString);
+						res.json({
+							success: {
+								status: true,
+							},
+						});
 					})
-				}
-				)
-				.catch(error => handler.handleError(res, 500, error.message));
-		}else{
-			handler.handleError(res,500,err);
+					.catch(error => handler.handleError(res, 500, error.message));
+			} else {
+				handler.handleError(res, 500, err);
+			}
 		}
-	});
-	
+	);
 });
 
 router.post('/upload/customer', upload.single('file'), function(req, res, next) {
 	var userId = handler.validateAccessToken(req, res);
 	console.log(req.file);
 	if (!req.file) {
-		return handler.handleError(res, 500,"send upload file")
+		return handler.handleError(res, 500, 'send upload file');
 	}
-	Customer.update({ avatar: filename }, { where: { customerid: userId } })
-		.then(success =>
-			res.json(success))
-		.catch(error => handler.handleError(res, 500, error.message));
+	uploader(req.file.path, 'directory/images/' + filename,r=>{
+		Customer.update({ avatar: filename }, { where: { customerid: userId } })
+			.then(success => res.json(success))
+			.catch(error => handler.handleError(res, 500, error.message));
+	},
+	(error)=>{
+		handler.handleError(res,500,error.message)
+	})
+	
+	
 });
 
+// function to upload file
+const uploader = function uploadImage(file, destination, callback, error) {
+	bucket.upload(file, {
+		destination: destination,
+		public: true,
+	}, (err, file) => {
+		if (!err) { callback(); } else {
+			error(err);
+		}
+	});
+}
+
+
 module.exports = router;
+	
