@@ -76,12 +76,12 @@ const priceDalytic = function getTotalPricelytic(startdate, endDate, callback, e
                 [Op.between]: [startdate, endDate],
             },
         },
-        // include: [
-        //     {
-        //         model: Service,
-        //         as: 'service',
-        //     },
-        // ],
+        include: [
+            {
+                model: Service,
+                as: 'service',
+            },
+        ],
         attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'],
         [Sequelize.literal(`COUNT(*)`), 'count'],
         [sequelize.fn('sum', sequelize.col('services.price')), 'total']
