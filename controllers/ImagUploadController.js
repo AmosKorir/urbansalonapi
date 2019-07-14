@@ -47,15 +47,22 @@ router.post('/upload/salon', upload.single('file'), function(req, res, next) {
 	if (!req.file) {
 		return handler.handleError(res, 500, 'file is empty');
 	}
-	Salon.update({ avatar: filename }, { where: { salonid: userId } })
-		.then(success =>
-			res.json({
-				success: {
-					status: true,
-				},
-			})
-		)
-		.catch(error => handler.handleError(res, 500, error.message));
+
+
+	uploader(req.file.path, 'directory/images/' + filename, s => {
+		Salon.update({ avatar: filename }, { where: { salonid: userId } })
+			.then(success =>
+				res.json({
+					success: {
+						status: true,
+					},
+				})
+			)
+			.catch(error => handler.handleError(res, 500, error.message));
+	}, (error) => {
+		handler.handleError(res, 500, error.message)
+	}
+	);
 });
 
 router.post('/upload/service', upload.single('file'), function(req, res, next) {
@@ -76,7 +83,7 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 	},(error)=>{
 			handler.handleError(res, 500, error.message)
 	}
-	)
+	);
 });
 
 router.post('/upload/customer', upload.single('file'), function(req, res, next) {

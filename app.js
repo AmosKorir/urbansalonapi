@@ -16,9 +16,8 @@ var publicDir = require('path').join(__dirname, '/public');
 app.use('/view', express.static(publicDir)); 
 app.use(expressip().getIpInfoMiddleware);
  
-// Setup a default catch-all route that sends back a welcome message in JSON format.
 
-//Db connection
+
 
 // require('./controllers/customerController')();
 const Customer = require('./controllers/customerController');
@@ -27,6 +26,7 @@ const Salon = require('./controllers/SalonController');
 const Service = require('./controllers/ServiceController');
 const Image = require('./controllers/ImagUploadController');
 const expressValidator = require('express-validator');
+const Analytic=require('./controllers/AnalyticController');
 
 app.use(expressValidator());
 require('./models/Relationship');
@@ -35,6 +35,7 @@ app.use('/order', Order);
 app.use('/salon', Salon);
 app.use('/service', Service);
 app.use('/image', Image);
+app.use('/analytic',Analytic);
 
 app.get('/', (req, res) =>
 	res.status(200).send({
