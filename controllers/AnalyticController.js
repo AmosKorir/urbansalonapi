@@ -27,7 +27,7 @@ router.get('/seven', (req, res) => {
 const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
-			created_at: {
+            datebooked: {
 				[Op.between]: [startdate, endDate],
 			},
 		},
