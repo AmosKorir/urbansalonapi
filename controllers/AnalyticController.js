@@ -9,10 +9,11 @@ const Op = Sequelize.Op;
 //get booking for the past seven dates
 router.get('/seven', (req, res) => {
 	var startDate = dater(4);
-	var endDate = new Date();
+    var endDate = new Date();
+    var userId = handler.validateAccessToken(req, res);
 	console.log(startDate + endDate);
 
-	priceDalytic(
+	priceDatalytic(userId,
 		startDate,
 		endDate,
 		result => {
@@ -24,13 +25,13 @@ router.get('/seven', (req, res) => {
 	);
 });
 //get booking count
-const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, errorCallback) {
+const dateAnalytic = function getDateAnalytic(userid,startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
 			datebooked: {
 				[Op.between]: [startdate, endDate],
 			},
-		},
+        },
 		attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'], [Sequelize.literal(`COUNT(*)`), 'count']],
 		group: ['date'],
 	})
@@ -43,7 +44,7 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
 };
 
 //get most earning day
-const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback, errorCallback) {
+const priceDatalytic = function getTotalPricelytic(userId,startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
 			datebooked: {
@@ -53,7 +54,10 @@ const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback,
 		include: [
 			{
 				model: Service,
-				as: 'service',
+                as: 'service',
+                where:{
+                    salonid:userId,
+                }
 			},
 		],
         attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'], 
@@ -69,32 +73,7 @@ const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback,
 			errorCallback(error);
 		});
 };
-const priceDalytic = function getTotalPricelytic(startdate, endDate, callback, errorCallback) {
-    Order.findAll({
-        where: {
-            datebooked: {
-                [Op.between]: [startdate, endDate],
-            },
-        },
-        include: [
-            {
-                model: Service,
-                as: 'service',
-            },
-        ],
-        attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'],
-        [Sequelize.literal(`COUNT(*)`), 'count'],
-        [sequelize.fn('sum', sequelize.col('services.price')), 'total']
-        ],
-        group: ['order.datebooked'],
-    })
-        .then(result => {
-            callback(result);
-        })
-        .catch(error => {
-            errorCallback(error);
-        });
-};
+
 
 const dater = function getStartDate(dateRange) {
 	var currentDate = new Date();
