@@ -5,12 +5,11 @@ const handler = require('../utils/Errorhandler');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-
 //get booking for the past seven dates
 router.get('/seven', (req, res) => {
 	var startDate = dater(4);
-    var endDate = new Date();
-    console.log(startDate+endDate);
+	var endDate = new Date();
+	console.log(startDate + endDate);
 
 	dateAnalytic(
 		startDate,
@@ -21,17 +20,21 @@ router.get('/seven', (req, res) => {
 		error => {
 			handler.handleError(res, 500, error.message);
 		}
-    );
+	);
 });
 
 const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
-            datebooked: {
+			datebooked: {
 				[Op.between]: [startdate, endDate],
 			},
-        },
-        attributes: { include: [[sequelize.fn('COUNT', sequelize.col('datebooked')), 'no_hats']] }
+		},
+		attributes: {
+			include: [[sequelize.fn('COUNT', sequelize.col('datebooked')), 'no_hats']],
+		},
+
+		group: ['datebooked'],
 	})
 		.then(result => {
 			callback(result);
@@ -41,10 +44,10 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
 		});
 };
 
-const dater=function getStartDate(dateRange) {
-    var currentDate = new Date();
-    var lastdate = currentDate.getDate() - 10;
+const dater = function getStartDate(dateRange) {
+	var currentDate = new Date();
+	var lastdate = currentDate.getDate() - 10;
 	return lastdate;
-}
+};
 
-module.exports=router;
+module.exports = router;
