@@ -12,7 +12,7 @@ router.get('/seven', (req, res) => {
 	var endDate = new Date();
 	console.log(startDate + endDate);
 
-	priceDatalytic(
+	priceDalytic(
 		startDate,
 		endDate,
 		result => {
@@ -68,6 +68,26 @@ const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback,
 		.catch(error => {
 			errorCallback(error);
 		});
+};
+const priceDalytic = function getTotalPricelytic(startdate, endDate, callback, errorCallback) {
+    Order.findAll({
+        where: {
+            datebooked: {
+                [Op.between]: [startdate, endDate],
+            },
+        },
+        attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'],
+        [Sequelize.literal(`COUNT(*)`), 'count'],
+        [sequelize.fn('sum', sequelize.col('price')), 'total']
+        ],
+        group: ['order.datebooked', 'service.serviceid'],
+    })
+        .then(result => {
+            callback(result);
+        })
+        .catch(error => {
+            errorCallback(error);
+        });
 };
 
 const dater = function getStartDate(dateRange) {
