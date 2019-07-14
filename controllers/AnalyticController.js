@@ -30,7 +30,8 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
             datebooked: {
 				[Op.between]: [startdate, endDate],
 			},
-		},
+        },
+        group: ["datebooked"],
 	})
 		.then(result => {
 			callback(result);
