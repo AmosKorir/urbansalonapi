@@ -31,7 +31,7 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
 				[Op.between]: [startdate, endDate],
 			},
         },
-        group: ["datebooked"],
+        attributes: { include: [[sequelize.fn('COUNT', sequelize.col('datebooked')), 'no_hats']] }
 	})
 		.then(result => {
 			callback(result);
