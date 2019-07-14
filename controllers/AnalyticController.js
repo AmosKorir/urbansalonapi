@@ -54,13 +54,6 @@ const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback,
 			{
 				model: Service,
 				as: 'service',
-				include: [
-					{
-						model: Salon,
-						as: 'salon',
-						attributes: { exclude: ['password'] },
-					},
-				],
 			},
 		],
 		attributes: [[sequelize.fn('sum', sequelize.col('price')), 'total']],
