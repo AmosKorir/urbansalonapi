@@ -57,7 +57,7 @@ const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback,
 			},
 		],
         attributes: [[sequelize.fn('sum', sequelize.col('price')), 'total']],
-        group: ['orderid'],
+        group: ['orderid','service.serviceid'],
 	})
 		.then(result => {
 			callback(result);
