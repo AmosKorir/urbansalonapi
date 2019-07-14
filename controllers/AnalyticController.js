@@ -7,6 +7,8 @@ const handler = require('../utils/Errorhandler');
 router.get('/seven', (req, res) => {
 	var startDate = getStartDate(7);
     var endDate = new Date();
+    console.log(startDate+endDate);
+    
 	dateAnalytic(
 		startDate,
 		endDate,
