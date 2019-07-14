@@ -5,21 +5,20 @@ const handler = require('../utils/Errorhandler');
 
 //get booking for the past seven dates
 router.get('/seven', (req, res) => {
-	// var startDate = dater(4);
-    // var endDate = new Date();
-    // console.log(startDate+endDate);
+	var startDate = dater(4);
+    var endDate = new Date();
+    console.log(startDate+endDate);
 
-	// dateAnalytic(
-	// 	startDate,
-	// 	endDate,
-	// 	result => {
-	// 		res.json(result);
-	// 	},
-	// 	error => {
-	// 		handler.handleError(res, 500, error.message);
-	// 	}
-    // );
-    res.json("dsvfjv");
+	dateAnalytic(
+		startDate,
+		endDate,
+		result => {
+			res.json(result);
+		},
+		error => {
+			handler.handleError(res, 500, error.message);
+		}
+    );
 });
 
 const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, errorCallback) {
