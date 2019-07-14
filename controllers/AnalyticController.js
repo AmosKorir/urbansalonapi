@@ -31,7 +31,8 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
 				[Op.between]: [startdate, endDate],
 			},
 		},
-		attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'], [Sequelize.literal(`COUNT(*)`), 'count']],
+        attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'],
+         [Sequelize.literal(`COUNT(*)`), 'count']],
 		group: ['date'],
 	})
 		.then(result => {
@@ -56,8 +57,9 @@ const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback,
 				as: 'service',
 			},
 		],
-        attributes: [[sequelize.fn('sum', sequelize.col('price')), 'total']],
-        group: ['orderid','service.serviceid'],
+        attributes: [[sequelize.fn('sum', sequelize.col('price')), 'total'],
+    ],
+        group: ['service.serviceid'],
 	})
 		.then(result => {
 			callback(result);
