@@ -2,6 +2,7 @@ const express = require('express');
 const Order = require('../models/Order');
 const router = express.Router();
 const handler = require('../utils/Errorhandler');
+const Service = require('./../models/Service');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
