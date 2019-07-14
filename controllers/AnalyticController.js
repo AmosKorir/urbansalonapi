@@ -2,6 +2,9 @@ const express = require('express');
 const Order = require('../models/Order');
 const router = express.Router();
 const handler = require('../utils/Errorhandler');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 
 //get booking for the past seven dates
 router.get('/seven', (req, res) => {
@@ -25,7 +28,7 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
 	Order.findAll({
 		where: {
 			created_at: {
-				$between: [startdate, endDate],
+				[Op.between]: [startdate, endDate],
 			},
 		},
 	})
