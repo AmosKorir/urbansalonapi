@@ -43,3 +43,5 @@ const dater=function getStartDate(dateRange) {
     var lastdate = currentDate.getDate() - 10;
 	return lastdate;
 }
+
+module.exports=router;
