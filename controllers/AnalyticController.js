@@ -11,7 +11,7 @@ router.get('/seven', (req, res) => {
 	var endDate = new Date();
 	console.log(startDate + endDate);
 
-	dateAnalytic(
+	priceDatalytic(
 		startDate,
 		endDate,
 		result => {
@@ -22,7 +22,7 @@ router.get('/seven', (req, res) => {
 		}
 	);
 });
-
+//get booking count
 const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
@@ -30,11 +30,39 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
 				[Op.between]: [startdate, endDate],
 			},
 		},
-        attributes: [
-            [Sequelize.literal(`DATE("datebooked")`), 'date'],
-            [Sequelize.literal(`COUNT(*)`), 'count']
-        ],
-        group: ['date'],
+		attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'], [Sequelize.literal(`COUNT(*)`), 'count']],
+		group: ['date'],
+	})
+		.then(result => {
+			callback(result);
+		})
+		.catch(error => {
+			errorCallback(error);
+		});
+};
+
+//get most earning day
+const priceDatalytic = function getTotalPricelytic(startdate, endDate, callback, errorCallback) {
+	Order.findAll({
+		where: {
+			datebooked: {
+				[Op.between]: [startdate, endDate],
+			},
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+		],
+		attributes: [[sequelize.fn('sum', sequelize.col('price')), 'total']],
 	})
 		.then(result => {
 			callback(result);
