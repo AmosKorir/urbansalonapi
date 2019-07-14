@@ -5,10 +5,10 @@ const handler = require('../utils/Errorhandler');
 
 //get booking for the past seven dates
 router.get('/seven', (req, res) => {
-	var startDate = getStartDate(7);
+	var startDate = dater(4);
     var endDate = new Date();
     console.log(startDate+endDate);
-    
+
 	dateAnalytic(
 		startDate,
 		endDate,
@@ -37,7 +37,8 @@ const dateAnalytic = function getDateAnalytic(startdate, endDate, callback, erro
 		});
 };
 
-function getStartDate(dateRange) {
-	var currentDate = new Date();
-	return currentDate.getDate() - 10;
+const dater=function getStartDate(dateRange) {
+    var currentDate = new Date();
+    var lastdate = currentDate.getDate() - 10;
+	return lastdate;
 }
