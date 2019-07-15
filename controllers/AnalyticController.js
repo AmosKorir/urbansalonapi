@@ -74,6 +74,38 @@ const priceDatalytic = function getTotalPricelytic(userId,startdate, endDate, ca
 		});
 };
 
+//counting the accepted ordes
+const cancelOrdersPerDate=function getOrderCanceled(){
+    Order.findAll({
+        where: {
+            status:3,
+            datebooked: {
+                [Op.between]: [startdate, endDate],
+            },
+        },
+        include: [
+            {
+                model: Service,
+                as: 'service',
+                where: {
+                    salonid: userId,
+                }
+            },
+        ],
+        attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'],
+        [Sequelize.literal(`COUNT(*)`), 'count'],
+        [sequelize.fn('sum', sequelize.col('price')), 'total']
+        ],
+        group: ['order.datebooked', 'service.serviceid'],
+    })
+        .then(result => {
+            callback(result);
+        })
+        .catch(error => {
+            errorCallback(error);
+        }); 
+}
+
 
 const dater = function getStartDate(dateRange) {
 	var currentDate = new Date();

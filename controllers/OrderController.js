@@ -65,14 +65,18 @@ router.get('/all', (req, res) => {
 		});
 });
 
-//get order by customerId
+//get order by salon
 router.get('/salon', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
+
 		include: [
 			{
 				model: Service,
 				as: 'service',
+				where: {
+					salonid: userId,
+				},
 				include: [
 					{
 						model: Salon,
