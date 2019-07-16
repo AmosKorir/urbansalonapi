@@ -67,6 +67,7 @@ const dateAnalytic = function getDateAnalytic(userid,startdate, endDate, callbac
 const priceDatalytic = function getTotalPricelytic(userId,startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
+			status:2,
 			datebooked: {
 				[Op.between]: [startdate, endDate],
 			},
