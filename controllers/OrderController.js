@@ -376,7 +376,7 @@ router.get('/customer/rejected', (req, res) => {
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
-router.put('/status', function(req, res) {
+router.post('/status', function(req, res) {
 	var userId = handler.validateAccessToken(req, res);
 	var orderid=parseInt(req.body.status);
 	Order.update({ status: req.body.status }, {
