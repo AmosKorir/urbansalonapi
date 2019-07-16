@@ -24,6 +24,26 @@ router.get('/seven', (req, res) => {
 		}
 	);
 });
+
+//get canceled orders
+router.get("/cancelled", (req, res) => {
+	var startDate = dater(30);
+	var endDate = new Date();
+	var userId = handler.validateAccessToken(req, res);
+	console.log(startDate + endDate);
+
+	cancelOrdersPerDate(userId,
+		startDate,
+		endDate,
+		result => {
+			res.json(result);
+		},
+		error => {
+			handler.handleError(res, 500, error.message);
+		}
+	);
+});
+
 //get booking count
 const dateAnalytic = function getDateAnalytic(userid,startdate, endDate, callback, errorCallback) {
 	Order.findAll({
