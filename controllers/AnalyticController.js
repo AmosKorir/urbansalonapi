@@ -8,7 +8,7 @@ const Op = Sequelize.Op;
 
 //get booking for the past seven dates
 router.get('/seven', (req, res) => {
-	var startDate = dater(4);
+	var startDate = dater(7);
     var endDate = new Date();
     var userId = handler.validateAccessToken(req, res);
 	console.log(startDate + endDate);
