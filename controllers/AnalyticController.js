@@ -95,7 +95,7 @@ const priceDatalytic = function getTotalPricelytic(userId,startdate, endDate, ca
 };
 
 //counting the accepted ordes
-const cancelOrdersPerDate=function getOrderCanceled(){
+const cancelOrdersPerDate = function getOrderCanceled(userId, startdate, endDate, callback, errorCallback){
     Order.findAll({
         where: {
             status:3,
