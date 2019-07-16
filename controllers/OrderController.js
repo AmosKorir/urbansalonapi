@@ -66,6 +66,140 @@ router.get('/all', (req, res) => {
 });
 
 //get order by salon
+router.get('/salon/pending', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		where: {
+			customerid: userId,
+			status: 0,
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				where: {
+					salonid: userId,
+				},
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+
+router.get('/salon/active', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		where: {
+			customerid: userId,
+			status: 1,
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				where: {
+					salonid: userId,
+				},
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+
+router.get('/salon/closed', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		where: {
+			customerid: userId,
+			status: 2,
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				where: {
+					salonid: userId,
+				},
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+router.get('/salon/rejected', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		where: {
+			customerid: userId,
+			status: 3,
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				where: {
+					salonid: userId,
+				},
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
 router.get('/salon', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
@@ -96,6 +230,17 @@ router.get('/salon', (req, res) => {
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
+
+
+
+
+
+
+
+
+
+//salon ends here
+
 //customer to cancel the order
 router.post(
 	'order/cancel',
@@ -115,7 +260,7 @@ router.get('/customer/closed', (req, res) => {
 	Order.findAll({
 		where: {
 			customerid: userId,
-			status: 1,
+			status: 2,
 		},
 		include: [
 			{
@@ -146,7 +291,67 @@ router.get('/customer/active', (req, res) => {
 	Order.findAll({
 		where: {
 			customerid: userId,
-			status: 0,
+			status: 1,
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+router.get('/customer/pending', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		where: {
+			customerid: userId,
+			status:0,
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				include: [
+					{
+						model: Salon,
+						as: 'salon',
+						attributes: { exclude: ['password'] },
+					},
+				],
+			},
+			{
+				model: Customer,
+				as: 'customer',
+				attributes: { exclude: ['password'] },
+			},
+		],
+	})
+		.then(response => res.json(response))
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+router.get('/customer/rejected', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		where: {
+			customerid: userId,
+			status: 3,
 		},
 		include: [
 			{
