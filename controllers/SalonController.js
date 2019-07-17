@@ -87,7 +87,7 @@ router.post('/login', (req, res) => {
 });
 
 //function to update the salon
-router.post("update"(req,res=>{
+router.post("update",(req,res=>{
 	var userId = handler.validateAccessToken(req, res);
 	var status = parseInt(req.body.status);
 	Salon.update(
