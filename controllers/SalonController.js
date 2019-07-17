@@ -107,9 +107,9 @@ router.post("update",(req,res)=>{
 		.catch(error => handler.handleError(res, 500, error.message));
 
 	
+		})
 
 
-}))
 
 //get self salon
 router.get('/get_salon', (req, res) => {
