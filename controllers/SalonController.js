@@ -95,7 +95,8 @@ router.post("/update",(req,res)=>{
 			status: req.body.status ,
 			openingtime:req.body.opening,
 			closingtime:req.body.closing
-		}
+		},
+		{where:{ salonid: userId}},
 	)
 		.then(success =>
 			res.json({
