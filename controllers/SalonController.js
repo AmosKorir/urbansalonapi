@@ -86,6 +86,31 @@ router.post('/login', (req, res) => {
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
+//function to update the salon
+router.post("update"(req,res=>{
+	var userId = handler.validateAccessToken(req, res);
+	var status = parseInt(req.body.status);
+	Salon.update(
+		{
+			status: req.body.status ,
+			openingtime:req.body.opening,
+			closingtime:req.body.closing
+		}
+	)
+		.then(success =>
+			res.json({
+				success: {
+					status: true,
+				},
+			})
+		)
+		.catch(error => handler.handleError(res, 500, error.message));
+
+	
+
+
+}))
+
 //get self salon
 router.get('/get_salon', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
