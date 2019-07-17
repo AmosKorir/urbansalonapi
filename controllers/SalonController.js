@@ -114,7 +114,7 @@ router.post("update",(req,res)=>{
 //get self salon
 router.get('/get_salon', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
-	Salon.findone({
+	Salon.findOne({
 		where: {
 			salonid: userId,
 		},
