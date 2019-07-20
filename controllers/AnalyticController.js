@@ -60,12 +60,10 @@ router.get('/picount', (req, res) => {
 			},
 		],
 	})
-		.then(result => {
-			callback(result);
+		.then(response => {
+			res.json(response);
 		})
-		.catch(error => {
-			errorCallback(error);
-		});
+		.catch(error => handler.handleError(res, 500, error.message));
 });
 
 //get booking count
