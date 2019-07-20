@@ -50,7 +50,8 @@ router.post(
 router.post('/status', function (req, res) {
 	var userId = handler.validateAccessToken(req, res);
 	var serviceid = parseInt(req.body.serviceid);
-	Service.update({ status: req.body.status }, {
+	var status = parseInt(req.body.status);
+	Service.update({ status: status}, {
 		where: { serviceid: serviceid }
 	})
 		.then(success =>
