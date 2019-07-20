@@ -51,6 +51,8 @@ router.post('/status', function (req, res) {
 	var userId = handler.validateAccessToken(req, res);
 	var serviceid = parseInt(req.body.serviceid);
 	var status = parseInt(req.body.status);
+	console.log(status);
+	console.log(serviceid);
 	Service.update({ status: status}, {
 		where: { serviceid: serviceid }
 	})
