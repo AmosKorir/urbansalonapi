@@ -74,6 +74,7 @@ router.get('/salon_self', (req, res) => {
 	Service.findAll({
 		where: {
 			salonid: userId,
+			[Op.or]: [{ status: 1 }, { status: 0 }]
 		},
 		include: [
 			{
@@ -94,6 +95,9 @@ router.get('/all', (req, res) => {
 	const ipInfo = req.ipInfo;
 	console.log(ipInfo);
 	Service.findAll({
+		where:{
+			[Op.or]: [{ status: 1 }, { status :0 }]
+		},
 		include: [
 			{
 				model: Salon,
