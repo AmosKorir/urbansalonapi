@@ -45,6 +45,25 @@ router.post(
 	}
 );
 
+
+//update service status
+router.post('/status', function (req, res) {
+	var userId = handler.validateAccessToken(req, res);
+	var serviceid = parseInt(req.body.serviceid);
+	Service.update({ status: req.body.status }, {
+		where: { serviceid: serviceid }
+	})
+		.then(success =>
+			res.json({
+				success: {
+					status: true,
+				},
+			})
+		)
+		.catch(error => handler.handleError(res, 500, error.message));
+});
+
+
 //get all the service by salon
 
 router.get('/salon_self', (req, res) => {
