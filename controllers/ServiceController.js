@@ -6,6 +6,7 @@ const salonGraph = require('./../recommender/Recommender');
 const predicter = require('../recommender/Recommender');
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
+const Op = Sequelize.Op;
 const { check, validationResult } = require('express-validator/check');
 
 //creates a service
