@@ -49,12 +49,12 @@ router.post(
 //update service status
 router.post('/status', function (req, res) {
 	var userId = handler.validateAccessToken(req, res);
-	var serviceid =req.body.serviceid;
+	var vserviceid = req.body.serviceid;
 	var status = parseInt(req.body.status,10);
 	console.log(status);
-	console.log(serviceid);
+	console.log(vserviceid);
 	Service.update({ status: status}, {
-		where: { serviceid: serviceid }
+		where: { serviceid: vserviceid }
 	})
 		.then(success =>
 			res.json({
