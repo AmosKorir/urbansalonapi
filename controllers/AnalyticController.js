@@ -9,11 +9,12 @@ const Op = Sequelize.Op;
 //get booking for the past seven dates
 router.get('/seven', (req, res) => {
 	var startDate = dater(30);
-    var endDate = new Date();
-    var userId = handler.validateAccessToken(req, res);
+	var endDate = new Date();
+	var userId = handler.validateAccessToken(req, res);
 	console.log(startDate + endDate);
 
-	priceDatalytic(userId,
+	priceDatalytic(
+		userId,
 		startDate,
 		endDate,
 		result => {
@@ -26,13 +27,14 @@ router.get('/seven', (req, res) => {
 });
 
 //get canceled orders
-router.get("/cancelled", (req, res) => {
+router.get('/cancelled', (req, res) => {
 	var startDate = dater(30);
 	var endDate = new Date();
 	var userId = handler.validateAccessToken(req, res);
 	console.log(startDate + endDate);
 
-	cancelOrdersPerDate(userId,
+	cancelOrdersPerDate(
+		userId,
 		startDate,
 		endDate,
 		result => {
@@ -44,14 +46,36 @@ router.get("/cancelled", (req, res) => {
 	);
 });
 
+//get piechart data
+router.get('/picount', (req, res) => {
+	var userId = handler.validateAccessToken(req, res);
+	Order.findAll({
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				where: {
+					salonid: userId,
+				},
+			},
+		],
+	})
+		.then(result => {
+			callback(result);
+		})
+		.catch(error => {
+			errorCallback(error);
+		});
+});
+
 //get booking count
-const dateAnalytic = function getDateAnalytic(userid,startdate, endDate, callback, errorCallback) {
+const dateAnalytic = function getDateAnalytic(userid, startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
 			datebooked: {
 				[Op.between]: [startdate, endDate],
 			},
-        },
+		},
 		attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'], [Sequelize.literal(`COUNT(*)`), 'count']],
 		group: ['date'],
 	})
@@ -64,10 +88,10 @@ const dateAnalytic = function getDateAnalytic(userid,startdate, endDate, callbac
 };
 
 //get most earning day
-const priceDatalytic = function getTotalPricelytic(userId,startdate, endDate, callback, errorCallback) {
+const priceDatalytic = function getTotalPricelytic(userId, startdate, endDate, callback, errorCallback) {
 	Order.findAll({
 		where: {
-			status:2,
+			status: 2,
 			datebooked: {
 				[Op.between]: [startdate, endDate],
 			},
@@ -75,17 +99,18 @@ const priceDatalytic = function getTotalPricelytic(userId,startdate, endDate, ca
 		include: [
 			{
 				model: Service,
-                as: 'service',
-                where:{
-                    salonid:userId,
-                }
+				as: 'service',
+				where: {
+					salonid: userId,
+				},
 			},
 		],
-        attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'], 
-        [Sequelize.literal(`COUNT(*)`), 'count'],
-            [sequelize.fn('sum', sequelize.col('price')), 'total']
-    ],
-		group: ['order.datebooked','service.serviceid'],
+		attributes: [
+			[Sequelize.literal(`DATE("datebooked")`), 'date'],
+			[Sequelize.literal(`COUNT(*)`), 'count'],
+			[sequelize.fn('sum', sequelize.col('price')), 'total'],
+		],
+		group: ['order.datebooked', 'service.serviceid'],
 	})
 		.then(result => {
 			callback(result);
@@ -96,37 +121,37 @@ const priceDatalytic = function getTotalPricelytic(userId,startdate, endDate, ca
 };
 
 //counting the accepted ordes
-const cancelOrdersPerDate = function getOrderCanceled(userId, startdate, endDate, callback, errorCallback){
-    Order.findAll({
-        where: {
-            status:3,
-            datebooked: {
-                [Op.between]: [startdate, endDate],
-            },
-        },
-        include: [
-            {
-                model: Service,
-                as: 'service',
-                where: {
-                    salonid: userId,
-                }
-            },
-        ],
-        attributes: [[Sequelize.literal(`DATE("datebooked")`), 'date'],
-        [Sequelize.literal(`COUNT(*)`), 'count'],
-        [sequelize.fn('sum', sequelize.col('price')), 'total']
-        ],
-        group: ['order.datebooked', 'service.serviceid'],
-    })
-        .then(result => {
-            callback(result);
-        })
-        .catch(error => {
-            errorCallback(error);
-        }); 
-}
-
+const cancelOrdersPerDate = function getOrderCanceled(userId, startdate, endDate, callback, errorCallback) {
+	Order.findAll({
+		where: {
+			status: 3,
+			datebooked: {
+				[Op.between]: [startdate, endDate],
+			},
+		},
+		include: [
+			{
+				model: Service,
+				as: 'service',
+				where: {
+					salonid: userId,
+				},
+			},
+		],
+		attributes: [
+			[Sequelize.literal(`DATE("datebooked")`), 'date'],
+			[Sequelize.literal(`COUNT(*)`), 'count'],
+			[sequelize.fn('sum', sequelize.col('price')), 'total'],
+		],
+		group: ['order.datebooked', 'service.serviceid'],
+	})
+		.then(result => {
+			callback(result);
+		})
+		.catch(error => {
+			errorCallback(error);
+		});
+};
 
 const dater = function getStartDate(dateRange) {
 	var currentDate = new Date();
