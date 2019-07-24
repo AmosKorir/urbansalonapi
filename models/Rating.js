@@ -6,11 +6,11 @@ const Rate = sequelize.define('rate', {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	rating: sequelize.INTEGER,
+	rating: Sequelize.INTEGER,
 
-	serviceid: sequelize.STRING,
+	serviceid: Sequelize.STRING,
 
-	customerid: sequelize.STRING,
+	customerid: Sequelize.STRING,
 });
 
 module.exports=Rate
