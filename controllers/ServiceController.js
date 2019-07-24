@@ -6,7 +6,7 @@ const salonGraph = require('./../recommender/Recommender');
 const predicter = require('../recommender/Recommender');
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
-const Rating =require('./../models/Rating');
+const Rating = require('./../models/Rating');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { check, validationResult } = require('express-validator/check');
@@ -48,17 +48,19 @@ router.post(
 	}
 );
 
-
 //update service status
-router.post('/status', function (req, res) {
+router.post('/status', function(req, res) {
 	var userId = handler.validateAccessToken(req, res);
 	var vserviceid = req.body.serviceid;
 	var status = parseInt(req.body.status);
 	console.log(status);
 	console.log(vserviceid);
-	Service.update({ status: status}, {
-		where: { serviceid: vserviceid }
-	})
+	Service.update(
+		{ status: status },
+		{
+			where: { serviceid: vserviceid },
+		}
+	)
 		.then(success =>
 			res.json({
 				success: {
@@ -69,7 +71,6 @@ router.post('/status', function (req, res) {
 		.catch(error => handler.handleError(res, 500, error.message));
 });
 
-
 //get all the service by salon
 
 router.get('/salon_self', (req, res) => {
@@ -77,7 +78,7 @@ router.get('/salon_self', (req, res) => {
 	Service.findAll({
 		where: {
 			salonid: userId,
-			[Op.or]: [{ status: 1 }, { status: 0 }]
+			[Op.or]: [{ status: 1 }, { status: 0 }],
 		},
 		include: [
 			{
@@ -113,32 +114,21 @@ router.get('/all', (req, res) => {
 	console.log(ipInfo);
 	Service.findAll({
 		where: {
-			[Op.or]: [{ status: 1 }, { status: 0 }]
+			[Op.or]: [{ status: 1 }, { status: 0 }],
 		},
 		include: [
-			// {
-			// 	model: Salon,
-			// 	as: 'salon',
-			// 	attributes: { exclude: ['password'] },
-			// },
+			{
+				model: Salon,
+				as: 'salon',
+				attributes: { exclude: ['password'] },
+			},
 
 			{
 				model: Rating,
 				as: 'rating',
-
-			}
-
-
+				attributes: [[Sequelize.fn('SUM', Sequelize.col('rating')), 'total']],
+			},
 		],
-		attributes: [
-			[Sequelize.fn('SUM', Sequelize.col('rating')), 'total'],
-		],
-
-		group: ['service.serviceid', 'rating.serviceid'],
-
-
-
-
 	})
 		.then(response => {
 			res.json(response);
@@ -150,19 +140,17 @@ router.get('/all', (req, res) => {
 router.get('/recommendation', (req, res) => {
 	var userid = handler.getUserId(req, res);
 	//create graph instance from function;
-	var result = predicter.getServiceGraph(userid,(result)=>{
-		var serviceArr=[];
+	var result = predicter.getServiceGraph(userid, result => {
+		var serviceArr = [];
 		result.records.forEach(element => {
-
-			element.forEach(node=>{
+			element.forEach(node => {
 				serviceArr.push(node.properties);
 				console.log(node);
-			})
+			});
 
-			console.log("end of a single node");
-			
+			console.log('end of a single node');
 		});
-		if(serviceArr.length==0){
+		if (serviceArr.length == 0) {
 			Service.findAll({
 				include: [
 					{
