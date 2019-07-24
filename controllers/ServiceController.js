@@ -6,6 +6,7 @@ const salonGraph = require('./../recommender/Recommender');
 const predicter = require('../recommender/Recommender');
 const Service = require('./../models/Service');
 const Salon = require('./../models/Salon');
+const Rating =require('./../models/Rating');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { check, validationResult } = require('express-validator/check');
@@ -106,8 +107,15 @@ router.get('/all', (req, res) => {
 				as: 'salon',
 				attributes: { exclude: ['password'] },
 			},
-			
+				
 		],
+
+		include:[
+			{
+				model:Rating,
+				as: 'rating',
+			}
+		]
 	})
 		.then(response => {
 			res.json(response);

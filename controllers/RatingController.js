@@ -23,7 +23,11 @@ router.post('/rate',(req,res)=>{
         var obj = JSON.parse(jsonString);
         // salonGraph.insertServiceGraph(obj);
         console.log(jsonString);
-        return res.json(response);
+        return res.json({
+            success: {
+                status: true,
+            },
+        })
     })
         .catch(error => handler.handleError(res, 500, error.message));
 }
