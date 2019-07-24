@@ -28,3 +28,5 @@ router.post('/rate',(req,res)=>{
         .catch(error => handler.handleError(res, 500, error.message));
 }
 );
+
+module.exports = router;
