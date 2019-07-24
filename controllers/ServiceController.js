@@ -102,11 +102,11 @@ router.get('/all', (req, res) => {
 			[Op.or]: [{ status: 1 }, { status :0 }]
 		},
 		include: [
-			{
-				model: Salon,
-				as: 'salon',
-				attributes: { exclude: ['password'] },
-			},
+			// {
+			// 	model: Salon,
+			// 	as: 'salon',
+			// 	attributes: { exclude: ['password'] },
+			// },
 
 			{
 				model: Rating,
@@ -116,7 +116,12 @@ router.get('/all', (req, res) => {
 
 				
 		],
-		
+		attributes: [
+			[Sequelize.fn('SUM', Sequelize.col('rating')), 'total'],
+		],
+
+		group: ['service.serviceid'],
+
 	
 
 		
