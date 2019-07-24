@@ -113,7 +113,7 @@ router.get('/all', (req, res) => {
 		include:[
 			{
 				model:Rating,
-				as: 'rating',
+				as: 'rate',
 			}
 		]
 	})
