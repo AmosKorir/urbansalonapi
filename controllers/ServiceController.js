@@ -97,7 +97,11 @@ router.get('/salon_self', (req, res) => {
 router.get('/all', (req, res) => {
 	const ipInfo = req.ipInfo;
 	console.log(ipInfo);
-	Rating.findAll()
+	Rating.findAll({
+		attributes: [
+			[Sequelize.fn('SUM', Sequelize.col('rating')), 'total'],
+		],
+	})
 		.then(response => {
 			res.json(response);
 		})
