@@ -116,7 +116,7 @@ router.get('/all', (req, res) => {
 				
 		],
 
-		ttributes: [
+		attributes: [
 			[Sequelize.fn('SUM', Sequelize.col('rating.ratinig')), 'total'],
 		],
 
