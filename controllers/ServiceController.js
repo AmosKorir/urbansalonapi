@@ -94,56 +94,57 @@ router.get('/salon_self', (req, res) => {
 });
 
 // function to get all the services
-router.get('/all', (req, res) => {
-	const ipInfo = req.ipInfo;
-	console.log(ipInfo);
-	Rating.findAll({
-		attributes: [
-			[Sequelize.fn('SUM', Sequelize.col('rating')), 'total'],
-		],
-	})
-		.then(response => {
-			res.json(response);
-		})
-		.catch(error => handler.handleError(res, 500, error.message));
-});
 // router.get('/all', (req, res) => {
 // 	const ipInfo = req.ipInfo;
 // 	console.log(ipInfo);
-// 	Service.findAll({
-// 		where: {
-// 			[Op.or]: [{ status: 1 }, { status: 0 }]
-// 		},
-// 		include: [
-// 			// {
-// 			// 	model: Salon,
-// 			// 	as: 'salon',
-// 			// 	attributes: { exclude: ['password'] },
-// 			// },
-
-// 			{
-// 				model: Rating,
-// 				as: 'rating',
-
-// 			}
-
-
-// 		],
+// 	Rating.findAll({
 // 		attributes: [
 // 			[Sequelize.fn('SUM', Sequelize.col('rating')), 'total'],
 // 		],
-
-// 		group: ['service.serviceid', 'rating.serviceid'],
-
-
-
-
 // 	})
 // 		.then(response => {
 // 			res.json(response);
 // 		})
 // 		.catch(error => handler.handleError(res, 500, error.message));
 // });
+
+router.get('/all', (req, res) => {
+	const ipInfo = req.ipInfo;
+	console.log(ipInfo);
+	Service.findAll({
+		where: {
+			[Op.or]: [{ status: 1 }, { status: 0 }]
+		},
+		include: [
+			// {
+			// 	model: Salon,
+			// 	as: 'salon',
+			// 	attributes: { exclude: ['password'] },
+			// },
+
+			{
+				model: Rating,
+				as: 'rating',
+
+			}
+
+
+		],
+		attributes: [
+			[Sequelize.fn('SUM', Sequelize.col('rating')), 'total'],
+		],
+
+		group: ['service.serviceid', 'rating.serviceid'],
+
+
+
+
+	})
+		.then(response => {
+			res.json(response);
+		})
+		.catch(error => handler.handleError(res, 500, error.message));
+});
 
 //function to get the service prediction
 router.get('/recommendation', (req, res) => {
