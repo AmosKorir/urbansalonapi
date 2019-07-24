@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = {
-	up: (queryInterface, Sequelize) => {
+	up: (queryInterface, sequelize) => {
 		return queryInterface.createTable('rates', {
 			ratid: {
-				type: Sequelize.INTEGER,
+				type: sequelize.INTEGER,
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
@@ -15,9 +15,9 @@ module.exports = {
 
 			customerid: sequelize.STRING,
 
-			createdAt: Sequelize.DATE,
+			createdAt: sequelize.DATE,
 
-			updatedAt: Sequelize.DATE,
+			updatedAt: sequelize.DATE,
 		});
 	},
 
