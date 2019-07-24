@@ -116,12 +116,7 @@ router.get('/all', (req, res) => {
 
 				
 		],
-		attributes: [
-			[Sequelize.fn('SUM', Sequelize.col('rating')), 'total'],
-		],
-
-		group: ['service.serviceid', 'salon.salonid','salon.name'],
-
+		
 	
 
 		
