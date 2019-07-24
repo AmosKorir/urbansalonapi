@@ -107,15 +107,15 @@ router.get('/all', (req, res) => {
 				as: 'salon',
 				attributes: { exclude: ['password'] },
 			},
+
+			{
+				model: Rating,
+				as: 'rate',
+			}
 				
 		],
 
-		include:[
-			{
-				model:Rating,
-				as: 'rate',
-			}
-		]
+		
 	})
 		.then(response => {
 			res.json(response);
