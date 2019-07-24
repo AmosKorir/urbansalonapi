@@ -13,4 +13,4 @@ const Rate = sequelize.define('rate', {
 	customerid: Sequelize.STRING,
 });
 
-module.exports=Rate
+module.exports=Rate;
