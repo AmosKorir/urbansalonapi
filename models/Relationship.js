@@ -10,7 +10,7 @@ Salon.hasMany(Service, { foreignKey: 'salonid' });
 Order.belongsTo(Service, { foreignKey: 'serviceid' });
 Service.hasMany(Order, { foreignKey: 'serviceid' });
 
-Service.hasMany(Rating,{foreignKey:'serviceid'});
+Service.hasMany(Rating,{as:'rating',foreignKey:'serviceid'});
 
 Order.belongsTo(Customer, { foreignKey: 'customerid' });
 Customer.hasMany(Order, { as: 'orders', foreignKey: 'customerid' });
