@@ -106,6 +106,7 @@ router.get('/all', (req, res) => {
 				as: 'salon',
 				attributes: { exclude: ['password'] },
 			},
+			
 		],
 	})
 		.then(response => {
