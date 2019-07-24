@@ -110,7 +110,9 @@ router.get('/all', (req, res) => {
 
 			{
 				model: Rating,
+				as:'rating',
 			}
+
 				
 		],
 
