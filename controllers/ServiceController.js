@@ -126,10 +126,12 @@ router.get('/all', (req, res) => {
 			{
 				model: Rating,
 				as: 'rating',
+				group:['rating.serviceid'],
 				attributes: [[Sequelize.fn('SUM', Sequelize.col('rating')), 'total']],
-				group: ['service.serviceid'],
 			},
 		],
+
+		
 	})
 		.then(response => {
 			res.json(response);
