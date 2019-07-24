@@ -27,6 +27,7 @@ const Service = require('./controllers/ServiceController');
 const Image = require('./controllers/ImagUploadController');
 const expressValidator = require('express-validator');
 const Analytic=require('./controllers/AnalyticController');
+const Rating=require('./controllers/RatingController');
 
 app.use(expressValidator());
 require('./models/Relationship');
@@ -36,10 +37,11 @@ app.use('/salon', Salon);
 app.use('/service', Service);
 app.use('/image', Image);
 app.use('/analytic',Analytic);
+app.use('/rating',Rating);
 
 app.get('/', (req, res) =>
 	res.status(200).send({
-		message: 'Welcome to the beginning of nothingness.',
+		message: 'Urban Salon',
 	})
 );
 
