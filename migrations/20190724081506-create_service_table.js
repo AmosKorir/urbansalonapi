@@ -18,7 +18,8 @@ module.exports = {
 			price: Sequelize.INTEGER,
 
 			status: Sequelize.INTEGER,
-
+			rating: Sequelize.INTEGER,
+			
 			avatar: Sequelize.STRING,
 
 			createdAt: Sequelize.DATE,

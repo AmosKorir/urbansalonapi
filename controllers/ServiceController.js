@@ -122,15 +122,7 @@ router.get('/all', (req, res) => {
 				as: 'salon',
 				attributes: { exclude: ['password'] },
 			},
-
-			{
-				model: Rating,
-				as: 'rating',
-		
-				attributes: [[Sequelize.fn('SUM', Sequelize.col('rating')), 'total']],
-			},
 		],
-		group: ['service.serviceid'],
 		
 	})
 		.then(response => {
