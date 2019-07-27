@@ -11,12 +11,12 @@ const Op = Sequelize.Op;
 router.post('/rate', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	var serviceid = req.body.serviceid;
-	var rating = req.body.rating;
+	var ratingv = req.body.rating;
 
 	Rating.create({
 		customerid: userId,
 		serviceid: serviceid,
-		rating: rating,
+		rating: ratingv,
 	})
 		.then(response => {
 			Rating.findAll({
