@@ -12,7 +12,7 @@ const Service = sequelize.define('service', {
 
 	name: Sequelize.STRING(50),
 
-	rating: Sequelize.INTEGER,
+	ratingavg: Sequelize.INTEGER,
 
 	price: Sequelize.INTEGER,
 
