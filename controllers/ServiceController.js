@@ -159,9 +159,11 @@ router.get('/recommendation', (req, res) => {
 					res.json(response);
 				})
 				.catch(error => handler.handleError(res, 500, error.message));
+		}else{
+
+			res.json(serviceArr);
 		}
 
-		res.json(serviceArr);
 	});
 });
 module.exports = router;
