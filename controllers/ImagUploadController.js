@@ -42,7 +42,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post('/upload/salon', upload.single('file'), function(req, res, next) {
-	var userId = handler.getUserId(req.body.accessToken)
+	var userId = handler.decodeUserId(req.body.accessToken)
 	console.log(req.file);
 	if (!req.file) {
 		return handler.handleError(res, 500, 'file is empty');

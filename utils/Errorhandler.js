@@ -26,6 +26,18 @@ const getUserId = function getUserId(req, res) {
 	return id;
 };
 
+/* return an id or empty string */
+const decodeUserId = function decodeUserId(token) {
+
+	if (!token) return '';
+	jwt.verify(token, config.key, function (err, decoded) {
+		if (err) return '';
+		id = decoded.id;
+	});
+
+	return id;
+};
+
 //function to handle error
 const handleError = function handleError(res, code, message) {
 	res.status(code).json({
@@ -41,4 +53,5 @@ module.exports = {
 	handleError: handleError,
 	validateAccessToken: validateAccessToken,
 	getUserId: getUserId,
+	decodeUserId:decodeUserId,
 };
