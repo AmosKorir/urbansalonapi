@@ -87,7 +87,7 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 });
 
 router.post('/upload/customer', upload.single('file'), function(req, res, next) {
-	var userId = handler.validateAccessToken(req, res);
+	var userId = handler.decodeUserId(req.body.accessToken);
 	console.log(req.file);
 	if (!req.file) {
 		return handler.handleError(res, 500, 'send upload file');
