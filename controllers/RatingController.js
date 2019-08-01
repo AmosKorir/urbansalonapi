@@ -6,7 +6,7 @@ const Rating = require('./../models/Rating');
 const Sequelize = require('sequelize');
 
 // rating function
-router.post('/', (req, res) => {
+router.post('/rating', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Rating.create({
 		rating: req.body.rating,
