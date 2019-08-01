@@ -96,6 +96,6 @@ module.exports = {
 	insertServiceGraph: serviceGraph,
 	insertCustomer: customerGraph,
 	insertOrders: orderGraph,
-	insertRatings: insertRatingGraph,
+	insertRatings: rateGraph,
 	getServiceGraph:predictGraph,
 };
