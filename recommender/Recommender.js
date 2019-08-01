@@ -67,7 +67,7 @@ const orderGraph = function insertOrderGraph(order) {
 const rateGraph=function insertRatingGraph(rating){
 	var sid = rating.serviceid;
 	var cid = rating.customerid.toString(2);
-	console.log(cid+"  "+sid);
+	console.log(rating+"  "+sid);
 	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} CREATE (a)-[r:RATED]->(b)';
 	var params = { serviceid: sid, customerid: cid.toString() };
 	runSession(cypher, params);
