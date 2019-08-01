@@ -17,6 +17,7 @@ router.post('/rating', (req, res) => {
 		.then(success => {
 			var jsonString = JSON.stringify(success); //convert to string to remove the sequelize specific meta data
 			var obj = JSON.parse(jsonString);
+			console.log(jsonString);
 			salonGraph.insertRatings(obj);
 			return res.json(success);
 		})
