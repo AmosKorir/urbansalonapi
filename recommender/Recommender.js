@@ -64,6 +64,13 @@ const orderGraph = function insertOrderGraph(order) {
 	runSession(cypher, params);
 };
 
+const rateGraph=function insertRatingGraph(rating){
+	var sid = rating.serviceid;
+	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} CREATE (a)-[r:RATED]->(b)';
+	var params = { serviceid: sid, customerid: order.customerid.toString() };
+	runSession(cypher, params);
+}
+
 const jsonSession=function jsonSession(cypher,params,callBack){
 	session.run(cypher,params)
 	.then(result=>{
@@ -89,5 +96,6 @@ module.exports = {
 	insertServiceGraph: serviceGraph,
 	insertCustomer: customerGraph,
 	insertOrders: orderGraph,
+	insertRatings: insertRatingGraph,
 	getServiceGraph:predictGraph,
 };

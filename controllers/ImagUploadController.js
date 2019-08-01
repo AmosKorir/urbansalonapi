@@ -42,26 +42,29 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post('/upload/salon', upload.single('file'), function(req, res, next) {
-	var userId = handler.decodeUserId(req.body.accessToken)
+	var userId = handler.decodeUserId(req.body.accessToken);
 	console.log(req.file);
 	if (!req.file) {
 		return handler.handleError(res, 500, 'file is empty');
 	}
 
-
-	uploader(req.file.path, 'directory/images/' + filename, s => {
-		Salon.update({ avatar: filename }, { where: { salonid: userId } })
-			.then(success =>
-				res.json({
-					success: {
-						status: true,
-					},
-				})
-			)
-			.catch(error => handler.handleError(res, 500, error.message));
-	}, (error) => {
-		handler.handleError(res, 500, error.message)
-	}
+	uploader(
+		req.file.path,
+		'directory/images/' + filename,
+		s => {
+			Salon.update({ avatar: filename }, { where: { salonid: userId } })
+				.then(success =>
+					res.json({
+						success: {
+							status: true,
+						},
+					})
+				)
+				.catch(error => handler.handleError(res, 500, error.message));
+		},
+		error => {
+			handler.handleError(res, 500, error.message);
+		}
 	);
 });
 
@@ -70,19 +73,23 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 	if (!req.file) {
 		return handler.handleError(res, 500, 'file is empty');
 	}
-	uploader(req.file.path, 'directory/images/' + filename,s=>{
-		Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
-			.then(response => {
-				res.json({
-					success: {
-						status: true,
-					},
-				});
-			})
-			.catch(error => handler.handleError(res, 500, error.message));
-	},(error)=>{
-			handler.handleError(res, 500, error.message)
-	}
+	uploader(
+		req.file.path,
+		'directory/images/' + filename,
+		s => {
+			Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
+				.then(response => {
+					res.json({
+						success: {
+							status: true,
+						},
+					});
+				})
+				.catch(error => handler.handleError(res, 500, error.message));
+		},
+		error => {
+			handler.handleError(res, 500, error.message);
+		}
 	);
 });
 
@@ -92,30 +99,36 @@ router.post('/upload/customer', upload.single('file'), function(req, res, next) 
 	if (!req.file) {
 		return handler.handleError(res, 500, 'send upload file');
 	}
-	uploader(req.file.path, 'directory/images/' + filename,r=>{
-		Customer.update({ avatar: filename }, { where: { customerid: userId } })
-			.then(success => res.json(success))
-			.catch(error => handler.handleError(res, 500, error.message));
-	},
-	(error)=>{
-		handler.handleError(res,500,error.message)
-	})
-	
-	
+	uploader(
+		req.file.path,
+		'directory/images/' + filename,
+		r => {
+			Customer.update({ avatar: filename }, { where: { customerid: userId } })
+				.then(success => res.json(success))
+				.catch(error => handler.handleError(res, 500, error.message));
+		},
+		error => {
+			handler.handleError(res, 500, error.message);
+		}
+	);
 });
 
 // function to upload file
 const uploader = function uploadImage(file, destination, callback, error) {
-	bucket.upload(file, {
-		destination: destination,
-		public: true,
-	}, (err, file) => {
-		if (!err) { callback(); } else {
-			error(err);
+	bucket.upload(
+		file,
+		{
+			destination: destination,
+			public: true,
+		},
+		(err, file) => {
+			if (!err) {
+				callback();
+			} else {
+				error(err);
+			}
 		}
-	});
-}
-
+	);
+};
 
 module.exports = router;
-	

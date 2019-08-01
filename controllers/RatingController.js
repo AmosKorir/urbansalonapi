@@ -1,39 +1,28 @@
 const express = require('express');
-const Rating = require('../models/Rating');
 const router = express.Router();
+const salonGraph = require('./../recommender/Recommender');
 const handler = require('../utils/Errorhandler');
-const Service = require('./../models/Service');
+const Rating = require('./../models/Rating');
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 
-// rate a service
-
-router.post('/rate', (req, res) => {
+// rating function
+router.post('/', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
-	var serviceid = req.body.serviceid;
-	var ratingv = req.body.rating;
-
 	Rating.create({
+		rating: req.body.rating,
+		serviceid: req.body.serviceid,
 		customerid: userId,
-		serviceid: serviceid,
-		rating: ratingv,
+
 	})
-		.then(response => {
-			Rating.findAll({
-				where: {
-					serviceid: serviceid,
-				},
-				attributes: [[Sequelize.fn('SUM', Sequelize.col('rating')), 'total']],
-			}).then(response=>{
-                
-            })
-			return res.json({
-				success: {
-					status: true,
-				},
-			});
+		.then(success => {
+			var jsonString = JSON.stringify(success); //convert to string to remove the sequelize specific meta data
+			var obj = JSON.parse(jsonString);
+			salonGraph.insertRatings(obj);
+			return res.json(success);
 		})
-		.catch(error => handler.handleError(res, 500, error.message));
+		.catch(error => handler.handleError(res, 422, error.message));
+
+
 });
 
 module.exports = router;
