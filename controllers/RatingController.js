@@ -9,7 +9,7 @@ const Sequelize = require('sequelize');
 router.post('/rating', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Rating.create({
-		rating: req.body.rating,
+		rating: parseInt(req.body.rating),
 		serviceid: req.body.serviceid,
 		customerid: userId,
 
