@@ -10,7 +10,7 @@ router.post('/rating', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Rating.create({
 		rating: parseInt(req.body.rating),
-		serviceid: req.body.serviceid,
+		serviceid: req.body.serviceId,
 		customerid: userId,
 
 	})
