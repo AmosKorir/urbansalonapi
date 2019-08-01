@@ -40,9 +40,10 @@ const decodeUserId = function decodeUserId(token) {
 
 //function to handle error
 const handleError = function handleError(res, code, message) {
+	console.log("Error............" + message)
 	res.status(code).json({
 		errors: [
-			{
+			{ 
 				msg: message,
 			},
 		],
