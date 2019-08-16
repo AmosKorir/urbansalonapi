@@ -70,7 +70,6 @@ router.get('/salon/pending', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		where: {
-			customerid: userId,
 			status: 0,
 		},
 		include: [
