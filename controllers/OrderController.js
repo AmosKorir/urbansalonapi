@@ -103,7 +103,7 @@ router.get('/salon/active', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		where: {
-			customerid: userId,
+			
 			status: 1,
 		},
 		include: [
@@ -137,7 +137,7 @@ router.get('/salon/closed', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		where: {
-			customerid: userId,
+		
 			status: 2,
 		},
 		include: [
@@ -170,7 +170,7 @@ router.get('/salon/rejected', (req, res) => {
 	var userId = handler.validateAccessToken(req, res);
 	Order.findAll({
 		where: {
-			customerid: userId,
+			
 			status: 3,
 		},
 		include: [
