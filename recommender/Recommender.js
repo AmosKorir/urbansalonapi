@@ -94,7 +94,7 @@ const predictGraph= function getServiceGraph(userid,callBack){
 }
 
 //update the service by adding avatar field.
-const updateAvatar=function updateAvatar(service_Id,imageUrl){
+const updateAvatar=function updateAvatar(service_Id,imageUrl,callBack){
 	var cypher = 'MATCH (n:service {serviceid: {serviceId}})SET n.avatar = {imageUrl}RETURN n';
 	var params = { serviceId: service_Id, imageUrl: imageUrl};
 	jsonSession(cypher, params, function (result) {
