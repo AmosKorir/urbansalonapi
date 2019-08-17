@@ -93,6 +93,15 @@ const predictGraph= function getServiceGraph(userid,callBack){
 	});
 }
 
+//update the service by adding avatar field.
+const updateAvatar=function updateAvatar(service_Id,imageUrl){
+	var cypher = 'MATCH (n:service {serviceid: {serviceId}})SET n.avatar = {imageUrl}RETURN n';
+	var params = { serviceId: service_Id, imageUrl: imageUrl};
+	jsonSession(cypher, params, function (result) {
+		callBack(result);
+	});
+}
+
 module.exports = {
 	insertSalonGraph: salonGraph,
 	insertServiceGraph: serviceGraph,
@@ -100,4 +109,5 @@ module.exports = {
 	insertOrders: orderGraph,
 	insertRatings: rateGraph,
 	getServiceGraph:predictGraph,
+	updateAvatar:updateAvatar,
 };

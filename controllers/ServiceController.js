@@ -48,6 +48,14 @@ router.post(
 	}
 );
 
+router.post('/update_image', (req, res) => {
+	var serviceid = req.body.serviceid;
+	var imageurl = req.body.imageurl;
+	salonGraph.updateAvatar(serviceid, imageurl, result => {
+		return res.json(response);
+	});
+});
+
 //update service status
 router.post('/status', function(req, res) {
 	var userId = handler.validateAccessToken(req, res);
@@ -123,7 +131,6 @@ router.get('/all', (req, res) => {
 				attributes: { exclude: ['password'] },
 			},
 		],
-		
 	})
 		.then(response => {
 			res.json(response);
@@ -159,11 +166,9 @@ router.get('/recommendation', (req, res) => {
 					res.json(response);
 				})
 				.catch(error => handler.handleError(res, 500, error.message));
-		}else{
-
+		} else {
 			res.json(serviceArr);
 		}
-
 	});
 });
 module.exports = router;
