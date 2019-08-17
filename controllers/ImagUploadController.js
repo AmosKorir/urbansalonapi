@@ -79,14 +79,14 @@ router.post('/upload/service', upload.single('file'), function(req, res, next) {
 		s => {
 			Service.update({ avatar: filename }, { where: { serviceid: serviceidd } })
 				.then(response => {
-					var serviceid = req.body.serviceid;
-					var imageurl = req.body.imageurl;
+					var serviceid = serviceidd;
+					var imageurl = filename;
 					salonGraph.updateAvatar(serviceid, imageurl, (result) => {
 						return res.json({
-							success: {
-								status: true,
-							},
-						});
+						success: {
+							status: true,
+						},
+					});
 					});
 					
 				})
