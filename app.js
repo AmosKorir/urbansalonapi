@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 var publicDir = require('path').join(__dirname, '/public');
 app.use('/view', express.static(publicDir)); 
+
 app.use(expressip().getIpInfoMiddleware);
  
 
