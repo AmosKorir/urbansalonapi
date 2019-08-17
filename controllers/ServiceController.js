@@ -51,8 +51,8 @@ router.post(
 router.post('/update_image', (req, res) => {
 	var serviceid = req.body.serviceid;
 	var imageurl = req.body.imageurl;
-	salonGraph.updateAvatar(serviceid, imageurl, result => {
-		return res.json(response);
+	salonGraph.updateAvatar(serviceid, imageurl, (result) => {
+		return res.json(result);
 	});
 });
 
