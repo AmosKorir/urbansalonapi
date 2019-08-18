@@ -87,7 +87,7 @@ const jsonSession=function jsonSession(cypher,params,callBack){
 const predictGraph= function getServiceGraph(userid,callBack){
 	// var cypher = 'MATCH (a:service) RETURN a';
 	// var cypher ='MATCH p = (: customer{ customerid: {customerid} }) -[r: BOOKED] -> (s: service) -[h: BOOKED] - (c: customer) -[b: BOOKED] - (ss: service) RETURN distinct ss LIMIT 25'
-	var cypher = 'MATCH p = (cu: customer{ customerid: {customerid} }) -[r: BOOKED] - (s: service) -[h: BOOKED] - (c: customer) -[b: BOOKED] - (ss: service) WHERE NOT (cu)-[r] - (ss) MATCH (salon:salon) -[pro:PROVIDES]- (s),(salon)-[k:PROVIDES]-(related:service),(cu)-[booked:BOOKED]-(s)WHERE NOT (cu)-[booked] - (related) RETURN  ss LIMIT 25';
+	var cypher = 'MATCH p = (cu: customer{ customerid: {customerid} }) -[r: BOOKED] - (s: service) -[h: BOOKED] - (c: customer) -[b: BOOKED] - (ss: service) WHERE NOT (cu)-[r] - (ss) MATCH (salon:salon) -[pro:PROVIDES]- (s),(salon)-[k:PROVIDES]-(related:service),(cu)-[booked:BOOKED]-(s)WHERE NOT (cu)-[booked] - (related) RETURN  DISTINCT ss LIMIT 25';
 	var params = {customerid:userid };
 	 jsonSession(cypher,params,function(result){
 		callBack(result);
