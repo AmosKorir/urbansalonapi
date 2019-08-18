@@ -59,7 +59,7 @@ const runSession = function runSession(cypher, params) {
 const orderGraph = function insertOrderGraph(order) {
 	console.log(order);
 	var sid=order.serviceid;
-	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} CREATE (a)-[r:BOOKED]->(b)';
+	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} MERGE (a)-[r:BOOKED]->(b)';
 	var params = { serviceid: sid, customerid: order.customerid.toString() };
 	runSession(cypher, params);
 };
@@ -68,7 +68,7 @@ const rateGraph=function insertRatingGraph(rating){
 	var sid = rating.serviceid;
 	var cid = rating.customerid.toString(2);
 	console.log(rating+"  "+sid);
-	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} CREATE (a)-[r:RATED]->(b)';
+	var cypher = 'MATCH (a:customer),(b:service) WHERE a.customerid={customerid} AND b.serviceid={serviceid} MERGE (a)-[r:RATED]->(b)';
 	var params = { serviceid: sid, customerid: cid.toString() };
 	runSession(cypher, params);
 }
