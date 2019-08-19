@@ -98,9 +98,6 @@ const priceDatalytic = function getTotalPricelytic(userId, startdate, endDate, c
 			{
 				model: Service,
 				as: 'service',
-				// where: {
-				// 	salonid: userId,
-				// },
 			},
 		],
 		attributes: [
